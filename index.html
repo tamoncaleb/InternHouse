@@ -1,11 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Predictions Marketplace</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello,m, World!</h1>
+  <header>
+    <h1>Stock Predictions Marketplace</h1>
+    <p>Get expert stock market predictions to make informed investment decisions.</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for experts or sectors...">
+      <button onclick="filterExperts()">Search</button>
+    </div>
+  </header>
+
+  <section class="categories">
+    <h2>Categories</h2>
+    <div class="category-card" id="techCompanies">
+      <h3>Tech Companies</h3>
+      <p>Predictions for top tech stocks like Apple, Google, and Tesla.</p>
+    </div>
+    <div class="category-card" id="top500Companies">
+      <h3>Top 500 Companies</h3>
+      <p>Predictions for S&P 500 companies.</p>
+    </div>
+    <div class="category-card" id="crypto">
+      <h3>Crypto</h3>
+      <p>Predictions for cryptocurrencies like Bitcoin, Ethereum, and Solana.</p>
+    </div>
+  </section>
+
+  <section class="experts">
+    <h2>Featured Experts</h2>
+    <div class="expert-card" data-category="tech">
+      <h3>John Doe</h3>
+      <p>Specializes in Tech Stocks</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 85%;">85% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $50</p>
+      <button onclick="buyPrediction('John Doe')">Buy Prediction</button>
+    </div>
+    <div class="expert-card" data-category="top500">
+      <h3>Jane Smith</h3>
+      <p>Specializes in Energy Sector</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 78%;">78% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $75</p>
+      <button onclick="buyPrediction('Jane Smith')">Buy Prediction</button>
+    </div>
+    <div class="expert-card" data-category="crypto">
+      <h3>Mike Johnson</h3>
+      <p>Specializes in Cryptocurrencies</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 92%;">92% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $100</p>
+      <button onclick="buyPrediction('Mike Johnson')">Buy Prediction</button>
+    </div>
+    <div class="expert-card" data-category="tech">
+      <h3>Sarah Lee</h3>
+      <p>Specializes in AI and Cloud Stocks</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 88%;">88% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $60</p>
+      <button onclick="buyPrediction('Sarah Lee')">Buy Prediction</button>
+    </div>
+    <div class="expert-card" data-category="top500">
+      <h3>Chris Brown</h3>
+      <p>Specializes in Healthcare Stocks</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 81%;">81% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $70</p>
+      <button onclick="buyPrediction('Chris Brown')">Buy Prediction</button>
+    </div>
+    <div class="expert-card" data-category="crypto">
+      <h3>Emily Davis</h3>
+      <p>Specializes in DeFi and NFTs</p>
+      <div class="expertise-bar">
+        <div class="accuracy" style="width: 95%;">95% Accuracy</div>
+      </div>
+      <p><strong>Prediction Price:</strong> $120</p>
+      <button onclick="buyPrediction('Emily Davis')">Buy Prediction</button>
+    </div>
+  </section>
+
+  <section class="payment-modal" id="paymentModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Purchase Prediction</h2>
+      <p id="expertName"></p>
+      <form id="paymentForm">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" placeholder="MM/YY" required>
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" placeholder="123" required>
+        <button type="submit">Pay Now</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
