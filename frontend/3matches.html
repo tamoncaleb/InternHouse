@@ -174,7 +174,7 @@
           H
         </text>
       </svg>
-    </a>
+    </a> 
     <div class="nav-links">
       <a href="3matches.html">Matches</a>
       <a href="4chat.html">Chat</a>
@@ -379,18 +379,23 @@
       const propertyFilter = document.getElementById('filterProperty').value.toLowerCase();
       
       profiles.forEach(profile => {
-        const profileName = profile.getAttribute('data-name').toLowerCase();
-        const profileAge = parseInt(profile.getAttribute('data-age'));
-        const profileJob = profile.getAttribute('data-job').toLowerCase();
-        const profileCompany = profile.getAttribute('data-company').toLowerCase();
-        const profileLocation = profile.getAttribute('data-location').toLowerCase();
-        const profileProperty = profile.getAttribute('data-property').toLowerCase();
-        
+        const profileLocation = profile.getAttribute('data-location');
+        const profileAge = parseInt(profile.getAttribute('data-age'), 10);
+        const profileProperty = profile.getAttribute('data-property');
+
         let show = true;
-        if(nameFilter && !profileName.includes(nameFilter)) show = false;
-        if(ageFilter !== "all") {
-          const [minAge, maxAge] = ageFilter.split('-').map(n => parseInt(n));
-          if(profileAge < minAge || profileAge > maxAge) show = false;
+        if (locVal !== 'all' && profileLocation !== locVal) {
+          show = false;
+        }
+        // Updated age filter: Check if profileAge falls within the selected range
+        if (ageVal !== 'all') {
+          const [minAge, maxAge] = ageVal.split('-').map(Number);
+          if (profileAge < minAge || profileAge > maxAge) {
+            show = false;
+          }
+        }
+        if (propVal !== 'all' && profileProperty !== propVal) {
+          show = false;
         }
         if(jobFilter && !profileJob.includes(jobFilter)) show = false;
         if(companyFilter && !profileCompany.includes(companyFilter)) show = false;
