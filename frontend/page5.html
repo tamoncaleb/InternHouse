@@ -3,94 +3,437 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Page 5 - Property Details</title>
+  <title>Page 5 - Properties with Filters</title>
   <style>
-    /* Reset some default margins/padding */
+    /* Reset default margins/padding */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
+    /* Body styling with black background */
     body {
+      background-color: #000; /* Black */
       font-family: Arial, sans-serif;
-      background-color: #f3f3f3;
-      padding: 40px;
+      color: #fff;            /* Default text color white */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;       /* Hide default scrollbars */
     }
-
-    /* A container to mimic the whiteboard rectangle */
-    .property-card {
-      position: relative;  /* allows absolute positioning inside */
-      max-width: 800px;
-      margin: 0 auto;      /* center the card on the page */
-      background-color: #fff;
-      border: 2px solid #ccc;
-      border-radius: 8px;
+    /* Container for the filter form */
+    .filter-bar {
+      width: 100%;
+      background-color: #1c1c1c; /* Dark gray */
       padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      border-bottom: 2px solid #333;
     }
-
-    /* House icon area */
-    .house-icon {
-      width: 100px;
-      height: 100px;
-      float: left;         /* let text flow around the icon */
-      margin-right: 20px;
+    .filter-bar label {
+      margin-right: 8px;
+      font-weight: bold;
+      color: #ccc;
     }
-
-    /* Title and property info */
-    .property-info h2 {
-      margin-bottom: 15px;
-      font-size: 24px;
+    .filter-bar input,
+    .filter-bar select {
+      background-color: #333; 
+      border: 1px solid #444;
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+    .filter-bar button {
+      background-color: #00bfff; /* Light blue */
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      cursor: pointer;
       font-weight: bold;
     }
-
-    .property-info p {
-      margin-bottom: 8px;
-      font-size: 16px;
+    .filter-bar button:hover {
+      background-color: #009acd;
     }
-
-    /* “2/3 liked this property” section in the bottom-right */
+    /* Note about tuned properties */
+    .profile-note {
+      margin: 10px 0;
+      color: #ccc;
+      font-size: 16px;
+      text-align: center;
+    }
+    /* Wrapper around the slider and arrow buttons */
+    .slider-wrapper {
+      position: relative;
+      width: 800px;   /* Adjust as needed */
+      height: 520px;  /* Enough space for 3 cards plus margins */
+      margin-top: 10px;
+      overflow: hidden; 
+      border: 2px solid #333;
+      border-radius: 8px;
+      background-color: #1c1c1c; /* Dark gray background behind cards */
+    }
+    /* The vertical slider container */
+    .slider {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.5s ease;
+    }
+    /* Each property card */
+    .property-card {
+      background-color: #333; /* Darker gray for card */
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 8px;
+      margin: 10px;
+      padding: 16px;
+      height: 150px;   /* Adjust so 3 cards fit in 520px total height */
+      display: flex;
+      position: relative;
+    }
+    /* Icon styling */
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin-right: 20px;
+    }
+    /* Property info */
+    .property-info {
+      flex: 1; /* Allow to grow */
+    }
+    .property-info h2 {
+      margin-bottom: 8px;
+      font-size: 18px;
+      color: #00bfff; /* Light blue headings */
+    }
+    .property-info p {
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    /* “Liked” info in bottom-right corner of the card */
     .liked-section {
-      position: absolute; 
-      bottom: 20px;  
-      right: 20px;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
       display: flex;
       align-items: center;
-      font-size: 16px;
+      font-size: 14px;
     }
-
     .liked-section p {
-      margin-right: 10px;
+      margin-right: 8px;
+    }
+    .liked-check {
+      font-size: 18px;
+      color: green; /* Green check mark */
+      margin-right: 5px;
+    }
+    .liked-x {
+      font-size: 18px;
+      color: gray;  /* Gray cross mark */
+      margin-right: 5px;
+    }
+    /* Arrow buttons (up/down) */
+    .arrow-button {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: #00bfff; /* Light blue */
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    /* Top arrow button */
+    .arrow-up {
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* Bottom arrow button */
+    .arrow-down {
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .arrow-button:hover {
+      background-color: #009acd; /* Darker blue on hover */
     }
   </style>
 </head>
 <body>
 
-  <div class="property-card">
-    <!-- House icon placeholder (replace with your own image if needed) -->
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/69/69524.png"
-      alt="House Icon"
-      class="house-icon"
-    />
+  <!-- Filter bar at the top -->
+  <div class="filter-bar">
+    <!-- Price Range -->
+    <label for="minPrice">Min Price:</label>
+    <input type="number" id="minPrice" placeholder="0" />
 
-    <div class="property-info">
-      <h2>Price: $3000 per month ($1000 per person)</h2>
-      <p><strong>Address:</strong> 1234 Maple Street, City, State</p>
-      <p><strong>Size:</strong> 3 bed, 2 bath, 1,200 sq ft</p>
-      <p><strong>Location:</strong> Close to downtown &amp; public transit</p>
-      <p><strong>Amenities:</strong> Parking, Laundry, Gym, Wi-Fi</p>
-    </div>
+    <label for="maxPrice">Max Price:</label>
+    <input type="number" id="maxPrice" placeholder="9999" />
 
-    <!-- Bottom-right “liked” info -->
-    <div class="liked-section">
-      <p>2/3 liked this property</p>
-      <!-- Example emojis, adjust as desired -->
-      <span style="font-size: 24px; margin-right: 5px;">🙂</span>
-      <span style="font-size: 24px;">👍</span>
-    </div>
+    <!-- Capacity -->
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity" placeholder="3" />
+
+    <!-- Currently Living -->
+    <label for="currentLiving">Currently Living:</label>
+    <input type="number" id="currentLiving" placeholder="2" />
+
+    <!-- Property Type -->
+    <label for="propertyType">Type:</label>
+    <select id="propertyType">
+      <option value="">All</option>
+      <option value="house">House</option>
+      <option value="apartment">Apartment</option>
+      <option value="condo">Condo</option>
+      <option value="townhome">Townhome</option>
+    </select>
+
+    <button onclick="applyFilters()">Search</button>
   </div>
 
+  <!-- Note about tuned properties -->
+  <div class="profile-note">
+    These properties are tuned to your location based on your profile.
+  </div>
+
+  <div class="slider-wrapper">
+    <!-- Up arrow button -->
+    <button class="arrow-button arrow-up" onclick="slideUp()">&#9650;</button>
+
+    <!-- Vertical slider container -->
+    <div class="slider" id="slider">
+      <!-- Property 1: House -->
+      <div class="property-card" 
+           data-price="3000" 
+           data-capacity="3" 
+           data-currentlyliving="2" 
+           data-type="house">
+        <!-- Use new house icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s"
+          alt="House Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$3000/mo ($1000 pp)</h2>
+          <p><strong>Address:</strong> 1234 Maple Street</p>
+          <p><strong>Size:</strong> 3 bed, 2 bath</p>
+          <p><strong>Location:</strong> Near downtown</p>
+        </div>
+        <div class="liked-section">
+          <p>2/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+
+      <!-- Property 2: Apartment -->
+      <div class="property-card"
+           data-price="2700" 
+           data-capacity="3" 
+           data-currentlyliving="2" 
+           data-type="apartment">
+        <!-- Use new apartment icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPrEQgCf_LcfL6tRTJBLg4iskJPQ3RboGQ&s"
+          alt="Apartment Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$2700/mo ($900 pp)</h2>
+          <p><strong>Address:</strong> 5678 Oak Avenue</p>
+          <p><strong>Size:</strong> 3 bed, 2 bath</p>
+          <p><strong>Location:</strong> Suburban area</p>
+        </div>
+        <div class="liked-section">
+          <p>2/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+
+      <!-- Property 3: Condo (using house icon as default) -->
+      <div class="property-card"
+           data-price="3600" 
+           data-capacity="3" 
+           data-currentlyliving="3" 
+           data-type="condo">
+        <!-- Use new house icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s"
+          alt="House Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$3600/mo ($1200 pp)</h2>
+          <p><strong>Address:</strong> 9101 Pine Road</p>
+          <p><strong>Size:</strong> 3 bed, 3 bath</p>
+          <p><strong>Location:</strong> City center</p>
+        </div>
+        <div class="liked-section">
+          <p>3/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+
+      <!-- Property 4: House -->
+      <div class="property-card"
+           data-price="2500" 
+           data-capacity="3" 
+           data-currentlyliving="1" 
+           data-type="house">
+        <!-- Use new house icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s"
+          alt="House Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$2500/mo ($833 pp)</h2>
+          <p><strong>Address:</strong> 1112 Cedar Blvd</p>
+          <p><strong>Size:</strong> 3 bed, 2 bath</p>
+          <p><strong>Location:</strong> Near public transit</p>
+        </div>
+        <div class="liked-section">
+          <p>1/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+          <span class="liked-x">✘</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+
+      <!-- Property 5: Townhome (using house icon as default) -->
+      <div class="property-card"
+           data-price="3200" 
+           data-capacity="3" 
+           data-currentlyliving="2" 
+           data-type="townhome">
+        <!-- Use new house icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s"
+          alt="House Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$3200/mo ($1066 pp)</h2>
+          <p><strong>Address:</strong> 1314 Birch Lane</p>
+          <p><strong>Size:</strong> 3 bed, 2 bath</p>
+          <p><strong>Location:</strong> Quiet neighborhood</p>
+        </div>
+        <div class="liked-section">
+          <p>2/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+
+      <!-- Property 6: Apartment -->
+      <div class="property-card"
+           data-price="2900" 
+           data-capacity="3" 
+           data-currentlyliving="3" 
+           data-type="apartment">
+        <!-- Use new apartment icon -->
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPrEQgCf_LcfL6tRTJBLg4iskJPQ3RboGQ&s"
+          alt="Apartment Icon"
+          class="icon"
+        />
+        <div class="property-info">
+          <h2>$2900/mo ($966 pp)</h2>
+          <p><strong>Address:</strong> 1516 Elm Street</p>
+          <p><strong>Size:</strong> 3 bed, 2 bath</p>
+          <p><strong>Location:</strong> Near park</p>
+        </div>
+        <div class="liked-section">
+          <p>3/4 liked</p>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-check">✔️</span>
+          <span class="liked-x">✘</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Down arrow button -->
+    <button class="arrow-button arrow-down" onclick="slideDown()">&#9660;</button>
+  </div>
+
+  <script>
+    /***** VERTICAL SLIDER LOGIC *****/
+    const slider = document.getElementById('slider');
+    const propertyCards = document.querySelectorAll('.property-card');
+    const cardHeight = propertyCards[0].offsetHeight + 20; // 20 = top+bottom margin
+    const totalCards = propertyCards.length;
+    const visibleCount = 3;
+    const maxIndex = totalCards - visibleCount;
+    let currentIndex = 0;
+
+    function updateSliderPosition() {
+      const translateY = -(cardHeight * currentIndex);
+      slider.style.transform = `translateY(${translateY}px)`;
+    }
+
+    function slideUp() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSliderPosition();
+      }
+    }
+
+    function slideDown() {
+      if (currentIndex < maxIndex) {
+        currentIndex++;
+        updateSliderPosition();
+      }
+    }
+
+    /***** FILTER LOGIC (Simple Demo) *****/
+    function applyFilters() {
+      const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseInt(document.getElementById('maxPrice').value) || 999999;
+      const capacity = parseInt(document.getElementById('capacity').value) || 0;
+      const currentLiving = parseInt(document.getElementById('currentLiving').value) || 0;
+      const propertyType = document.getElementById('propertyType').value;
+
+      propertyCards.forEach(card => {
+        const price = parseInt(card.dataset.price);
+        const cap = parseInt(card.dataset.capacity);
+        const currLive = parseInt(card.dataset.currentlyliving);
+        const type = card.dataset.type;
+
+        const priceMatch = (price >= minPrice && price <= maxPrice);
+        const capacityMatch = (capacity === 0) ? true : (cap === capacity);
+        const livingMatch = (currentLiving === 0) ? true : (currLive === currentLiving);
+        const typeMatch = (propertyType === '' || propertyType === type);
+
+        card.style.display = (priceMatch && capacityMatch && livingMatch && typeMatch) ? 'flex' : 'none';
+      });
+
+      // Reset slider to the top after filtering
+      currentIndex = 0;
+      updateSliderPosition();
+    }
+  </script>
 </body>
 </html>
+
