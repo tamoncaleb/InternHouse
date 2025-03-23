@@ -54,50 +54,64 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    /* Button group */
-    .button-group {
-      text-align: center;
+    /* Filter bar styling */
+    .filter-bar {
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 8px;
       margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-around;
     }
-    .button-group button {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      background-color: #00bfff;
-      color: #000;
+    .filter-bar label {
+      font-size: 14px;
+      color: #ccc;
+    }
+    .filter-bar input, .filter-bar select {
+      padding: 6px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #333;
+      color: #e0e0e0;
+      font-size: 14px;
+      width: 100%;
+      max-width: 120px;
+    }
+    .filter-bar button {
+      padding: 6px 12px;
+      background: #00bfff;
       border: none;
       border-radius: 4px;
-      font-size: 16px;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
-    }
-    .button-group button:hover {
-      background-color: #009acd;
-    }
-    /* Filters styling */
-    .filters {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .filters select {
-      padding: 5px 10px;
       font-size: 14px;
-      border: 1px solid #000;
-      border-radius: 50px;
-      outline: none;
-      background-color: #2c2c2c;
-      color: #e0e0e0;
     }
-    /* Profile listings */
+    .filter-bar button:hover {
+      background: #009acd;
+    }
+    /* Profile listing styling */
     .profile {
       background: #1c1c1c;
       padding: 15px;
       margin-bottom: 10px;
       border-radius: 8px;
       display: flex;
-      align-items: center;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+      flex-direction: column;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
       border-left: 5px solid #00bfff;
+      overflow: hidden;
+    }
+    .profile:hover {
+      background: #222;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
     }
     .profile-picture {
       width: 75px;
@@ -108,50 +122,37 @@
     }
     .profile-info {
       flex: 1;
-      color: #e0e0e0;
     }
-    .match-toggle {
-      background: none;
-      border: 2px solid #000;
-      border-radius: 50%;
-      font-size: 24px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      outline: none;
-      margin-left: 10px;
-    }
-    .match-toggle.checked {
-      color: #fff;
-      border-color: #fff;
-      font-size: 36px;
-    }
-    /* Compatibility checker styling */
-    .compatibility-checker {
-      margin-left: auto;
-      text-align: right;
-      width: 120px;
-    }
-    .compatibility-text {
-      font-weight: bold;
-      color: #00bfff;
-      margin: 0;
+    .profile-info p {
+      margin: 2px 0;
       font-size: 14px;
     }
-    .progress {
-      background-color: #333;
-      border-radius: 5px;
-      overflow: hidden;
-      height: 10px;
-      margin-top: 5px;
+    /* Extra details initially hidden */
+    .profile-extra {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #333;
+      font-size: 14px;
+      color: #ccc;
     }
-    .progress-bar {
-      background-color: #00bfff;
-      height: 100%;
-      width: 0%;
+    /* Expanded view */
+    .profile.expanded .profile-extra {
+      display: block;
+    }
+    /* Heart button styling */
+    .heart-btn {
+      margin-top: 10px;
+      font-size: 24px;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.3s;
+    }
+    .heart-btn.filled {
+      color: red;
     }
   </style>
 </head>
@@ -160,14 +161,18 @@
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
-        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">I</text>
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
+          I
+        </text>
         <g transform="translate(50,20)">
           <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
           <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
           <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
           <circle cx="41" cy="68" r="2" fill="#fff"/>
         </g>
-        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">H</text>
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
+          H
+        </text>
       </svg>
     </a>
     <div class="nav-links">
@@ -180,241 +185,229 @@
   
   <div class="container">
     <h2>Matches</h2>
-    <!-- Filters -->
-    <div class="filters">
-      <select id="filter-location">
-        <option value="all">All Locations</option>
-        <option value="San Francisco, CA">San Francisco, CA</option>
-        <option value="New York, NY">New York, NY</option>
-        <option value="North Potomac, MD">North Potomac, MD</option>
-        <option value="Houston, TX">Houston, TX</option>
-        <option value="Miami, FL">Miami, FL</option>
-        <option value="Seattle, WA">Seattle, WA</option>
-      </select>
-      <select id="filter-age">
-        <option value="all">All Ages</option>
-        <option value="18-20">18-20</option>
-        <option value="21-25">21-25</option>
-        <option value="26-30">26-30</option>
-      </select>
-      <select id="filter-property">
-        <option value="all">All Property Types</option>
-        <option value="Apartment">Apartment</option>
-        <option value="Condo">Condo</option>
-        <option value="Townhouse">Townhouse</option>
-      </select>
+    
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div>
+        <label for="filterName">Name:</label>
+        <input type="text" id="filterName" placeholder="Name" />
+      </div>
+      <div>
+        <label for="filterAge">Age Range:</label>
+        <select id="filterAge">
+          <option value="all">All</option>
+          <option value="18-20">18-20</option>
+          <option value="21-25">21-25</option>
+          <option value="26-30">26-30</option>
+          <option value="31-35">31-35</option>
+        </select>
+      </div>
+      <div>
+        <label for="filterJob">Job:</label>
+        <input type="text" id="filterJob" placeholder="Job" />
+      </div>
+      <div>
+        <label for="filterCompany">Company:</label>
+        <input type="text" id="filterCompany" placeholder="Company" />
+      </div>
+      <div>
+        <label for="filterLocation">Location:</label>
+        <input type="text" id="filterLocation" placeholder="Location" />
+      </div>
+      <div>
+        <label for="filterProperty">Preferred Property:</label>
+        <input type="text" id="filterProperty" placeholder="Property Type" />
+      </div>
+      <div>
+        <button onclick="applyFilters()">Filter</button>
+      </div>
     </div>
+    
     <!-- Profile Listings -->
-    <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Condo">
-      <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info"> 
-        <p><strong>Name:</strong> Mary Goodborn</p>
-        <p><strong>Age:</strong> 25</p>
-        <p><strong>Job:</strong> Software Engineer Intern</p>
-        <p><strong>Company:</strong> Google</p>
+    <div class="profile" data-name="Mary Goodborn" data-age="25" data-job="Software Engineer Intern" data-company="Google" data-location="San Francisco, CA" data-property="Condo">
+      <div class="profile-header">
+        <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Mary Goodborn</p>
+          <p><strong>Age:</strong> 25</p>
+          <p><strong>Job:</strong> Software Engineer Intern</p>
+          <p><strong>Company:</strong> Google</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> San Francisco, CA</p>
-        <p><strong>Preferred Property Type:</strong> Condo</p>
+        <p><strong>Preferred Property:</strong> Condo</p>
+        <p><strong>Description:</strong> Mary is passionate about coding and loves exploring the latest tech trends. She enjoys hiking and discovering new coffee shops.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <div class="profile" data-age="27" data-location="New York, NY" data-property="Condo">
-      <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Elizabeth Olsen</p>
-        <p><strong>Age:</strong> 27</p>
-        <p><strong>Job:</strong> Marketing Manager Apprenticeship</p>
-        <p><strong>Company:</strong> Facebook</p>
+    
+    <div class="profile" data-name="Elizabeth Olsen" data-age="27" data-job="Marketing Manager Apprenticeship" data-company="Facebook" data-location="New York, NY" data-property="Condo">
+      <div class="profile-header">
+        <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Elizabeth Olsen</p>
+          <p><strong>Age:</strong> 27</p>
+          <p><strong>Job:</strong> Marketing Manager Apprenticeship</p>
+          <p><strong>Company:</strong> Facebook</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> New York, NY</p>
-        <p><strong>Preferred Property Type:</strong> Condo</p>
+        <p><strong>Preferred Property:</strong> Condo</p>
+        <p><strong>Description:</strong> Elizabeth is creative and strategic. She loves art, theater, and exploring the city's vibrant food scene.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <div class="profile" data-age="23" data-location="Seattle, WA" data-property="Townhouse">
-      <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Laura Synder</p>
-        <p><strong>Age:</strong> 23</p>
-        <p><strong>Job:</strong> Data Analyst Intern</p>
-        <p><strong>Company:</strong> Amazon</p>
+    
+    <div class="profile" data-name="Laura Synder" data-age="23" data-job="Data Analyst Intern" data-company="Amazon" data-location="Miami, FL" data-property="Townhouse">
+      <div class="profile-header">
+        <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Laura Synder</p>
+          <p><strong>Age:</strong> 23</p>
+          <p><strong>Job:</strong> Data Analyst Intern</p>
+          <p><strong>Company:</strong> Amazon</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> Miami, FL</p>
-        <p><strong>Preferred Property Type:</strong> Townhouse</p>
+        <p><strong>Preferred Property:</strong> Townhouse</p>
+        <p><strong>Description:</strong> Laura loves numbers and is always on the hunt for patterns. She is an avid reader and enjoys outdoor adventures.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <!-- Additional profiles -->
-    <div class="profile" data-age="24" data-location="Houston, TX" data-property="Condo">
-      <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Kevin Miles</p>
-        <p><strong>Age:</strong> 24</p>
-        <p><strong>Job:</strong> UI/UX Designer Intern</p>
-        <p><strong>Company:</strong> Adobe</p>
+    
+    <div class="profile" data-name="Kevin Miles" data-age="24" data-job="UI/UX Designer Intern" data-company="Adobe" data-location="Houston, TX" data-property="Condo">
+      <div class="profile-header">
+        <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Kevin Miles</p>
+          <p><strong>Age:</strong> 24</p>
+          <p><strong>Job:</strong> UI/UX Designer Intern</p>
+          <p><strong>Company:</strong> Adobe</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> Houston, TX</p>
-        <p><strong>Preferred Property Type:</strong> Condo</p>
+        <p><strong>Preferred Property:</strong> Condo</p>
+        <p><strong>Description:</strong> Kevin is all about design and user experience. He loves minimalist aesthetics and enjoys sketching his ideas.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <div class="profile" data-age="19" data-location="New York, NY" data-property="Apartment">
-      <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Greg Fiswo</p>
-        <p><strong>Age:</strong> 19</p>
-        <p><strong>Job:</strong> Hardware Engineer Intern</p>
-        <p><strong>Company:</strong> HRT</p>
+    
+    <div class="profile" data-name="Greg Fiswo" data-age="19" data-job="Hardware Engineer Intern" data-company="HRT" data-location="New York, NY" data-property="Apartment">
+      <div class="profile-header">
+        <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Greg Fiswo</p>
+          <p><strong>Age:</strong> 19</p>
+          <p><strong>Job:</strong> Hardware Engineer Intern</p>
+          <p><strong>Company:</strong> HRT</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> New York, NY</p>
-        <p><strong>Preferred Property Type:</strong> Apartment</p>
+        <p><strong>Preferred Property:</strong> Apartment</p>
+        <p><strong>Description:</strong> Greg is enthusiastic about electronics and enjoys tinkering with gadgets. He also plays guitar in his free time.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <div class="profile" data-age="26" data-location="North Potomac, MD" data-property="Apartment">
-      <img src="pfp12.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Sarah Thompson</p>
-        <p><strong>Age:</strong> 26</p>
-        <p><strong>Job:</strong> Product Manager Apprenticeship</p>
-        <p><strong>Company:</strong> Microsoft</p>
+    
+    <div class="profile" data-name="Sarah Thompson" data-age="26" data-job="Product Manager Apprenticeship" data-company="Microsoft" data-location="North Potomac, MD" data-property="Apartment">
+      <div class="profile-header">
+        <img src="pfp12.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Sarah Thompson</p>
+          <p><strong>Age:</strong> 26</p>
+          <p><strong>Job:</strong> Product Manager Apprenticeship</p>
+          <p><strong>Company:</strong> Microsoft</p>
+        </div>
+      </div>
+      <div class="profile-extra">
         <p><strong>Location:</strong> North Potomac, MD</p>
-        <p><strong>Preferred Property Type:</strong> Apartment</p>
+        <p><strong>Preferred Property:</strong> Apartment</p>
+        <p><strong>Description:</strong> Sarah is driven and innovative. She enjoys collaborating with teams and is passionate about technology and user-centric design.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
       </div>
-      <button class="match-toggle">+</button>
     </div>
-    <div class="profile" data-age="18" data-location="Miami, FL" data-property="Apartment">
-      <img src="pfp6.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Ryan Cooper</p>
-        <p><strong>Age:</strong> 18</p>
-        <p><strong>Job:</strong> Intern Developer</p>
-        <p><strong>Company:</strong> Uber</p>
-        <p><strong>Location:</strong> Miami, FL</p>
-        <p><strong>Preferred Property Type:</strong> Apartment</p>
+    
+    <div class="profile" data-name="Ryan Cooper" data-age="18" data-job="Intern Developer" data-company="Uber" data-location="Miami, FL" data-property="Apartment">
+      <div class="profile-header">
+        <img src="pfp6.jpg" alt="Profile Picture" class="profile-picture" />
+        <div class="profile-info">
+          <p><strong>Name:</strong> Ryan Cooper</p>
+          <p><strong>Age:</strong> 18</p>
+          <p><strong>Job:</strong> Intern Developer</p>
+          <p><strong>Company:</strong> Uber</p>
+        </div>
       </div>
-      <button class="match-toggle">+</button>
+      <div class="profile-extra">
+        <p><strong>Location:</strong> Miami, FL</p>
+        <p><strong>Preferred Property:</strong> Apartment</p>
+        <p><strong>Description:</strong> Ryan is a quick learner with a passion for coding. He loves gaming and exploring new tech innovations.</p>
+        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
+      </div>
     </div>
   </div>
   
   <script>
-    // Toggle the match button (plus to check)
-    const matchToggles = document.querySelectorAll('.match-toggle');
-    matchToggles.forEach(btn => {
-      btn.addEventListener('click', function() {
-        this.classList.toggle('checked');
-        this.textContent = this.classList.contains('checked') ? '✔' : '+';
+    // Toggle profile expansion on click
+    const profiles = document.querySelectorAll('.profile');
+    profiles.forEach(profile => {
+      profile.addEventListener('click', function(e) {
+        // Prevent toggling when clicking a button inside the profile
+        if(e.target.tagName.toLowerCase() === "button") return;
+        this.classList.toggle('expanded');
       });
     });
-
-    // Filtering functionality
-    const filterLocation = document.getElementById('filter-location');
-    const filterAge = document.getElementById('filter-age');
-    const filterProperty = document.getElementById('filter-property');
-    const profiles = document.querySelectorAll('.profile');
-
+    
+    // Heart button toggles between empty and filled when clicked.
+    function toggleHeart(e, btn) {
+      e.stopPropagation(); // Prevent triggering profile toggle
+      btn.classList.toggle('filled');
+      btn.textContent = btn.classList.contains('filled') ? '♥' : '♡';
+    }
+    
+    // Filtering functionality with dropdown for age range and text inputs for other fields
     function applyFilters() {
-      const locVal = filterLocation.value;
-      const ageVal = filterAge.value;
-      const propVal = filterProperty.value;
-
+      const nameFilter = document.getElementById('filterName').value.toLowerCase();
+      const ageFilter = document.getElementById('filterAge').value;
+      const jobFilter = document.getElementById('filterJob').value.toLowerCase();
+      const companyFilter = document.getElementById('filterCompany').value.toLowerCase();
+      const locationFilter = document.getElementById('filterLocation').value.toLowerCase();
+      const propertyFilter = document.getElementById('filterProperty').value.toLowerCase();
+      
       profiles.forEach(profile => {
-        const profileLocation = profile.getAttribute('data-location');
-        const profileAge = profile.getAttribute('data-age');
-        const profileProperty = profile.getAttribute('data-property');
-
+        const profileName = profile.getAttribute('data-name').toLowerCase();
+        const profileAge = parseInt(profile.getAttribute('data-age'));
+        const profileJob = profile.getAttribute('data-job').toLowerCase();
+        const profileCompany = profile.getAttribute('data-company').toLowerCase();
+        const profileLocation = profile.getAttribute('data-location').toLowerCase();
+        const profileProperty = profile.getAttribute('data-property').toLowerCase();
+        
         let show = true;
-        if (locVal !== 'all' && profileLocation !== locVal) {
-          show = false;
+        if(nameFilter && !profileName.includes(nameFilter)) show = false;
+        if(ageFilter !== "all") {
+          const [minAge, maxAge] = ageFilter.split('-').map(n => parseInt(n));
+          if(profileAge < minAge || profileAge > maxAge) show = false;
         }
-        if (ageVal !== 'all' && profileAge !== ageVal) {
-          show = false;
-        }
-        if (propVal !== 'all' && profileProperty !== propVal) {
-          show = false;
-        }
+        if(jobFilter && !profileJob.includes(jobFilter)) show = false;
+        if(companyFilter && !profileCompany.includes(companyFilter)) show = false;
+        if(locationFilter && !profileLocation.includes(locationFilter)) show = false;
+        if(propertyFilter && !profileProperty.includes(propertyFilter)) show = false;
+        
         profile.style.display = show ? 'flex' : 'none';
       });
     }
-
-    filterLocation.addEventListener('change', applyFilters);
-    filterAge.addEventListener('change', applyFilters);
-    filterProperty.addEventListener('change', applyFilters);
-
-    // --- Compatibility Matching Logic ---
-    // Retrieve the current user's data from localStorage (saved from page 2)
-    const storedData = localStorage.getItem("userData");
-    const currentUser = storedData ? JSON.parse(storedData) : null;
-
-    /**
-     * Calculate a compatibility percentage between the current user and a given profile.
-     * We weight the criteria as follows:
-     * - Matching location: +40%
-     * - Age difference within 3 years: +30%
-     * - Matching housing preference (compared to the profile's property type): +30%
-     *
-     * @param {HTMLElement} profile - The profile element.
-     * @param {Object} userData - The current user's data.
-     * @returns {number} - The compatibility score (0-100).
-     */
-    function calculateCompatibility(profile, userData) {
-      let score = 0;
-      // 1. Location match: add 40%
-      if (profile.getAttribute('data-location') === userData.location) {
-        score += 40;
-      }
-      // 2. Age difference within 3 years: add 30%
-      if (userData.age && profile.getAttribute('data-age')) {
-        const ageDiff = Math.abs(parseInt(profile.getAttribute('data-age')) - parseInt(userData.age));
-        if (ageDiff <= 3) {
-          score += 30;
-        }
-      }
-      // 3. Housing preference match (case-insensitive): add 30%
-      if (userData.housing_pref && profile.getAttribute('data-property')) {
-        if (profile.getAttribute('data-property').toLowerCase() === userData.housing_pref.toLowerCase()) {
-          score += 30;
-        }
-      }
-      return score;
-    }
-
-    /**
-     * Loop over all profiles and add a compatibility checker element (with a percentage text and progress bar)
-     * for each profile if the current user's data is available.
-     */
-    function displayCompatibility() {
-      if (!currentUser) return;
-
-      profiles.forEach(profile => {
-        const compatibility = calculateCompatibility(profile, currentUser);
-
-        // Create the compatibility checker container
-        const checkerDiv = document.createElement('div');
-        checkerDiv.className = "compatibility-checker";
-
-        // Create text element showing percentage
-        const textElement = document.createElement('p');
-        textElement.className = "compatibility-text";
-        textElement.textContent = `${compatibility}%`;
-
-        // Create progress bar container
-        const progressContainer = document.createElement('div');
-        progressContainer.className = "progress";
-
-        // Create progress bar element and set its width based on compatibility
-        const progressBar = document.createElement('div');
-        progressBar.className = "progress-bar";
-        progressBar.style.width = compatibility + "%";
-
-        // Append progress bar into container and then add both to the checker div
-        progressContainer.appendChild(progressBar);
-        checkerDiv.appendChild(textElement);
-        checkerDiv.appendChild(progressContainer);
-
-        // Insert the compatibility checker before the match toggle button in the profile container
-        const matchToggle = profile.querySelector('.match-toggle');
-        profile.insertBefore(checkerDiv, matchToggle);
-      });
-    }
-
-    // Run the compatibility calculation after the DOM content is loaded
-    window.addEventListener('DOMContentLoaded', displayCompatibility);
+    
+    // Attach filter events
+    document.getElementById('filterName').addEventListener('input', applyFilters);
+    document.getElementById('filterAge').addEventListener('change', applyFilters);
+    document.getElementById('filterJob').addEventListener('input', applyFilters);
+    document.getElementById('filterCompany').addEventListener('input', applyFilters);
+    document.getElementById('filterLocation').addEventListener('input', applyFilters);
+    document.getElementById('filterProperty').addEventListener('input', applyFilters);
   </script>
 </body>
 </html>
