@@ -12,7 +12,6 @@
       padding: 70px 20px 20px; /* leave room for fixed header */
       color: #e0e0e0;
     }
-    /* Common header */
     header {
       background-color: #000;
       padding: 10px 20px;
@@ -54,64 +53,48 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    /* Filter Bar */
-    .filter-bar {
-      background: #1c1c1c;
-      padding: 15px;
-      border-radius: 8px;
+    .button-group {
+      text-align: center;
       margin-bottom: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-around;
     }
-    .filter-bar label {
-      font-size: 14px;
-      color: #ccc;
-    }
-    .filter-bar input, .filter-bar select {
-      padding: 6px;
-      border: 1px solid #444;
-      border-radius: 4px;
-      background: #333;
-      color: #e0e0e0;
-      font-size: 14px;
-      width: 100%;
-      max-width: 120px;
-    }
-    .filter-bar button {
-      padding: 6px 12px;
-      background: #00bfff;
+    .button-group button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #00bfff;
+      color: #000;
       border: none;
       border-radius: 4px;
-      color: #000;
-      font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
+    }
+    .button-group button:hover {
+      background-color: #009acd;
+    }
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .filters select,
+    .filters input {
+      padding: 5px 10px;
       font-size: 14px;
+      border: 1px solid #000;
+      border-radius: 50px;
+      outline: none;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
     }
-    .filter-bar button:hover {
-      background: #009acd;
-    }
-    /* Profile listing styling */
     .profile {
       background: #1c1c1c;
       padding: 15px;
       margin-bottom: 10px;
       border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: background 0.3s;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.5);
-      border-left: 5px solid #00bfff;
-      overflow: hidden;
-    }
-    .profile:hover {
-      background: #222;
-    }
-    .profile-header {
-      display: flex;
       align-items: center;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+      border-left: 5px solid #00bfff;
     }
     .profile-picture {
       width: 75px;
@@ -122,41 +105,53 @@
     }
     .profile-info {
       flex: 1;
+      color: #e0e0e0;
     }
-    .profile-info p {
-      margin: 2px 0;
-      font-size: 14px;
-    }
-    /* Extra details (collapsed by default) */
-    .profile-extra {
-      display: none;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #333;
-      font-size: 14px;
-      color: #ccc;
-    }
-    .profile.expanded .profile-extra {
-      display: block;
-    }
-    /* Heart button styling inside expanded section */
-    .heart-btn {
-      margin-top: 10px;
-      font-size: 24px;
-      color: #fff;
+    .match-toggle {
       background: none;
-      border: none;
+      border: 2px solid #000;
+      border-radius: 50%;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
       outline: none;
-      transition: color 0.3s;
+      margin-left: 10px;
     }
-    .heart-btn.filled {
-      color: red;
+    .match-toggle.checked {
+      color: #fff;
+      border-color: #fff;
+      font-size: 36px;
+    }
+    .compatibility-checker {
+      margin-left: auto;
+      text-align: right;
+      width: 120px;
+    }
+    .compatibility-text {
+      font-weight: bold;
+      color: #00bfff;
+      margin: 0;
+      font-size: 14px;
+    }
+    .progress {
+      background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 5px;
+    }
+    .progress-bar {
+      background-color: #00bfff;
+      height: 100%;
+      width: 0%;
     }
   </style>
 </head>
 <body>
-  <!-- Common header -->
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
@@ -176,272 +171,130 @@
       <a href="5housesearch.html">Properties</a>
     </div>
   </header>
-  
+
   <div class="container">
     <h2>Matches</h2>
-    <!-- Filter Bar -->
-    <div class="filter-bar">
-      <div>
-        <label for="filterName">Name:</label>
-        <input type="text" id="filterName" placeholder="Name" />
-      </div>
-      <div>
-        <label for="filterAge">Age Range:</label>
-        <select id="filterAge">
-          <option value="all">All</option>
-          <option value="18-20">18-20</option>
-          <option value="21-25">21-25</option>
-          <option value="26-30">26-30</option>
-          <option value="31-35">31-35</option>
-        </select>
-      </div>
-      <div>
-        <label for="filterJob">Job:</label>
-        <input type="text" id="filterJob" placeholder="Job" />
-      </div>
-      <div>
-        <label for="filterCompany">Company:</label>
-        <input type="text" id="filterCompany" placeholder="Company" />
-      </div>
-      <div>
-        <label for="filterLocation">Location:</label>
-        <input type="text" id="filterLocation" placeholder="Location" />
-      </div>
-      <div>
-        <label for="filterProperty">Preferred Property:</label>
-        <input type="text" id="filterProperty" placeholder="Property Type" />
-      </div>
-      <div>
-        <button onclick="applyFilters()">Filter</button>
-      </div>
+    <div class="filters">
+      <select id="filter-location">
+        <option value="all">All Locations</option>
+        <option value="San Francisco, CA">San Francisco, CA</option>
+        <option value="New York, NY">New York, NY</option>
+        <option value="Seattle, WA">Seattle, WA</option>
+      </select>
+      <select id="filter-age">
+        <option value="all">All Ages</option>
+        <option value="18-20">18-20</option>
+        <option value="21-25">21-25</option>
+        <option value="26-30">26-30</option>
+      </select>
+      <select id="filter-property">
+        <option value="all">All Property Types</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Condo">Condo</option>
+        <option value="Townhouse">Townhouse</option>
+      </select>
     </div>
-    
-    <!-- Profile Listings -->
-    <!-- Profile 1 -->
-    <div class="profile" data-name="Mary Goodborn" data-age="25" data-job="Software Engineer Intern" data-company="Google" data-location="San Francisco, CA" data-property="Condo">
-      <div class="profile-header">
-        <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Mary Goodborn</p>
-          <p><strong>Age:</strong> 25</p>
-          <p><strong>Job:</strong> Software Engineer Intern</p>
-          <p><strong>Company:</strong> Google</p>
-        </div>
-      </div>
-      <div class="profile-extra">
+
+    <!-- Example Profile -->
+    <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Apartment">
+      <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Mary Goodborn</p>
+        <p><strong>Age:</strong> 25</p>
+        <p><strong>Job:</strong> Software Engineer</p>
+        <p><strong>Company:</strong> Google</p>
         <p><strong>Location:</strong> San Francisco, CA</p>
-        <p><strong>Preferred Property:</strong> Condo</p>
-        <p><strong>Favorite Hobby:</strong> Hiking &amp; Photography</p>
-        <p><strong>Field of Study:</strong> Computer Science</p>
-        <p><strong>School:</strong> Stanford University</p>
-        <p><strong>Internship Location:</strong> Mountain View, CA</p>
-        <p><strong>Budget:</strong> $800-$1200</p>
-        <p><strong>Description:</strong> Mary loves coding, outdoor adventures, and discovering the best local coffee spots.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
+        <p><strong>Preferred Property Type:</strong> Apartment</p>
       </div>
-    </div>
-    
-    <!-- Profile 2 -->
-    <div class="profile" data-name="Elizabeth Olsen" data-age="27" data-job="Marketing Manager Apprenticeship" data-company="Facebook" data-location="New York, NY" data-property="Condo">
-      <div class="profile-header">
-        <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Elizabeth Olsen</p>
-          <p><strong>Age:</strong> 27</p>
-          <p><strong>Job:</strong> Marketing Manager Apprenticeship</p>
-          <p><strong>Company:</strong> Facebook</p>
+      <div class="compatibility-checker">
+        <p class="compatibility-text">Calculating...</p>
+        <div class="progress">
+          <div class="progress-bar" style="width: 0%;"></div>
         </div>
       </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> New York, NY</p>
-        <p><strong>Preferred Property:</strong> Condo</p>
-        <p><strong>Favorite Hobby:</strong> Theater &amp; Painting</p>
-        <p><strong>Field of Study:</strong> Business Administration</p>
-        <p><strong>School:</strong> Harvard University</p>
-        <p><strong>Internship Location:</strong> Manhattan, NY</p>
-        <p><strong>Budget:</strong> $1000-$1500</p>
-        <p><strong>Description:</strong> Elizabeth is creative and loves art, culture, and fine dining.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
-    </div>
-    
-    <!-- Profile 3 -->
-    <div class="profile" data-name="Laura Synder" data-age="23" data-job="Data Analyst Intern" data-company="Amazon" data-location="Miami, FL" data-property="Townhouse">
-      <div class="profile-header">
-        <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Laura Synder</p>
-          <p><strong>Age:</strong> 23</p>
-          <p><strong>Job:</strong> Data Analyst Intern</p>
-          <p><strong>Company:</strong> Amazon</p>
-        </div>
-      </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> Miami, FL</p>
-        <p><strong>Preferred Property:</strong> Townhouse</p>
-        <p><strong>Favorite Hobby:</strong> Reading &amp; Traveling</p>
-        <p><strong>Field of Study:</strong> Statistics</p>
-        <p><strong>School:</strong> University of Miami</p>
-        <p><strong>Internship Location:</strong> Downtown Miami</p>
-        <p><strong>Budget:</strong> $700-$1100</p>
-        <p><strong>Description:</strong> Laura is passionate about numbers and loves exploring new cultures.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
-    </div>
-    
-    <!-- Profile 4 -->
-    <div class="profile" data-name="Kevin Miles" data-age="24" data-job="UI/UX Designer Intern" data-company="Adobe" data-location="Houston, TX" data-property="Condo">
-      <div class="profile-header">
-        <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Kevin Miles</p>
-          <p><strong>Age:</strong> 24</p>
-          <p><strong>Job:</strong> UI/UX Designer Intern</p>
-          <p><strong>Company:</strong> Adobe</p>
-        </div>
-      </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> Houston, TX</p>
-        <p><strong>Preferred Property:</strong> Condo</p>
-        <p><strong>Favorite Hobby:</strong> Sketching &amp; Traveling</p>
-        <p><strong>Field of Study:</strong> Graphic Design</p>
-        <p><strong>School:</strong> University of Houston</p>
-        <p><strong>Internship Location:</strong> Downtown Houston</p>
-        <p><strong>Budget:</strong> $900-$1300</p>
-        <p><strong>Description:</strong> Kevin is focused on creating intuitive designs and enjoys urban exploration.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
-    </div>
-    
-    <!-- Profile 5 -->
-    <div class="profile" data-name="Greg Fiswo" data-age="19" data-job="Hardware Engineer Intern" data-company="HRT" data-location="New York, NY" data-property="Apartment">
-      <div class="profile-header">
-        <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Greg Fiswo</p>
-          <p><strong>Age:</strong> 19</p>
-          <p><strong>Job:</strong> Hardware Engineer Intern</p>
-          <p><strong>Company:</strong> HRT</p>
-        </div>
-      </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> New York, NY</p>
-        <p><strong>Preferred Property:</strong> Apartment</p>
-        <p><strong>Favorite Hobby:</strong> Guitar &amp; Coding</p>
-        <p><strong>Field of Study:</strong> Electrical Engineering</p>
-        <p><strong>School:</strong> NYU</p>
-        <p><strong>Internship Location:</strong> Brooklyn, NY</p>
-        <p><strong>Budget:</strong> $800-$1200</p>
-        <p><strong>Description:</strong> Greg is energetic and loves building innovative electronic solutions.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
-    </div>
-    
-    <!-- Profile 6 -->
-    <div class="profile" data-name="Sarah Thompson" data-age="26" data-job="Product Manager Apprenticeship" data-company="Microsoft" data-location="North Potomac, MD" data-property="Apartment">
-      <div class="profile-header">
-        <img src="pfp12.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Sarah Thompson</p>
-          <p><strong>Age:</strong> 26</p>
-          <p><strong>Job:</strong> Product Manager Apprenticeship</p>
-          <p><strong>Company:</strong> Microsoft</p>
-        </div>
-      </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> North Potomac, MD</p>
-        <p><strong>Preferred Property:</strong> Apartment</p>
-        <p><strong>Favorite Hobby:</strong> Traveling &amp; Blogging</p>
-        <p><strong>Field of Study:</strong> Management</p>
-        <p><strong>School:</strong> University of Maryland</p>
-        <p><strong>Internship Location:</strong> Rockville, MD</p>
-        <p><strong>Budget:</strong> $850-$1250</p>
-        <p><strong>Description:</strong> Sarah is innovative and loves working on projects that bridge technology and business.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
-    </div>
-    
-    <div class="profile" data-name="Ryan Cooper" data-age="18" data-job="Intern Developer" data-company="Uber" data-location="Miami, FL" data-property="Apartment">
-      <div class="profile-header">
-        <img src="pfp6.jpg" alt="Profile Picture" class="profile-picture" />
-        <div class="profile-info">
-          <p><strong>Name:</strong> Ryan Cooper</p>
-          <p><strong>Age:</strong> 18</p>
-          <p><strong>Job:</strong> Intern Developer</p>
-          <p><strong>Company:</strong> Uber</p>
-        </div>
-      </div>
-      <div class="profile-extra">
-        <p><strong>Location:</strong> Miami, FL</p>
-        <p><strong>Preferred Property:</strong> Apartment</p>
-        <p><strong>Favorite Hobby:</strong> Gaming &amp; Coding</p>
-        <p><strong>Field of Study:</strong> Computer Science</p>
-        <p><strong>School:</strong> Florida International University</p>
-        <p><strong>Internship Location:</strong> Miami, FL</p>
-        <p><strong>Budget:</strong> $700-$1100</p>
-        <p><strong>Description:</strong> Ryan is enthusiastic about programming and loves exploring the latest tech trends.</p>
-        <button class="heart-btn" onclick="toggleHeart(event, this)">♡</button>
-      </div>
+      <button class="match-toggle">+</button>
     </div>
   </div>
-  
+
   <script>
-    // Toggle profile expansion on click
-    const profiles = document.querySelectorAll('.profile');
-    profiles.forEach(profile => {
-      profile.addEventListener('click', function(e) {
-        // Prevent toggling when clicking a button inside the profile
-        if(e.target.tagName.toLowerCase() === "button") return;
-        this.classList.toggle('expanded');
-      });
-    });
-    
-    // Heart button toggles between empty and filled when clicked.
-    function toggleHeart(e, btn) {
-      e.stopPropagation(); // Prevent triggering profile toggle
-      btn.classList.toggle('filled');
-      btn.textContent = btn.classList.contains('filled') ? '♥' : '♡';
+    // Retrieve user data from localStorage
+    const storedData = localStorage.getItem("userData");
+    const userData = storedData ? JSON.parse(storedData) : null;
+
+    if (!userData) {
+      console.error('User data is not available.');
+    } else {
+      console.log("User Data on this page:", userData);
     }
-    
+
+    async function getCompatibilityScore(userData, profileData) {
+      try {
+        const response = await fetch('http://localhost:3001/get-compatibility', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userData, profileData }),
+        });
+
+        const data = await response.json();
+        return data.score;
+      } catch (error) {
+        console.error('Error fetching compatibility:', error);
+        return 0;
+      }
+    }
+
+    if (userData) {
+      const profiles = document.querySelectorAll('.profile');
+
+      profiles.forEach(async (profile) => {
+        const profileData = {
+          job: profile.querySelector('.profile-info p:nth-child(3)').textContent.split(':')[1].trim(),
+          location: profile.querySelector('.profile-info p:nth-child(5)').textContent.split(':')[1].trim(),
+          propertyType: profile.querySelector('.profile-info p:nth-child(6)').textContent.split(':')[1].trim()
+        };
+
+        const compatibility = await getCompatibilityScore(userData, profileData);
+        const compatibilityChecker = profile.querySelector('.compatibility-checker');
+        const compatibilityText = compatibilityChecker.querySelector('.compatibility-text');
+        const progressBar = compatibilityChecker.querySelector('.progress-bar');
+
+        compatibilityText.textContent = `${compatibility}%`;
+        progressBar.style.width = `${compatibility}%`;
+      });
+    }
+
     // Filtering functionality
     function applyFilters() {
-      const nameFilter = document.getElementById('filterName').value.toLowerCase();
-      const ageFilter = document.getElementById('filterAge').value;
-      const jobFilter = document.getElementById('filterJob').value.toLowerCase();
-      const companyFilter = document.getElementById('filterCompany').value.toLowerCase();
-      const locationFilter = document.getElementById('filterLocation').value.toLowerCase();
-      const propertyFilter = document.getElementById('filterProperty').value.toLowerCase();
-      
+      const locationFilter = document.getElementById('filter-location').value;
+      const ageFilter = document.getElementById('filter-age').value;
+      const propertyFilter = document.getElementById('filter-property').value;
+      const profiles = document.querySelectorAll('.profile');
+
       profiles.forEach(profile => {
-        const profileName = profile.getAttribute('data-name').toLowerCase();
-        const profileAge = parseInt(profile.getAttribute('data-age'));
-        const profileJob = profile.getAttribute('data-job').toLowerCase();
-        const profileCompany = profile.getAttribute('data-company').toLowerCase();
-        const profileLocation = profile.getAttribute('data-location').toLowerCase();
-        const profileProperty = profile.getAttribute('data-property').toLowerCase();
-        
+        const profileLocation = profile.getAttribute('data-location');
+        const profileAge = profile.getAttribute('data-age');
+        const profileProperty = profile.getAttribute('data-property');
+
         let show = true;
-        if(nameFilter && !profileName.includes(nameFilter)) show = false;
-        if(ageFilter !== "all") {
-          const [minAge, maxAge] = ageFilter.split('-').map(n => parseInt(n));
-          if(profileAge < minAge || profileAge > maxAge) show = false;
+        if (locationFilter !== 'all' && profileLocation !== locationFilter) {
+          show = false;
         }
-        if(jobFilter && !profileJob.includes(jobFilter)) show = false;
-        if(companyFilter && !profileCompany.includes(companyFilter)) show = false;
-        if(locationFilter && !profileLocation.includes(locationFilter)) show = false;
-        if(propertyFilter && !profileProperty.includes(propertyFilter)) show = false;
-        
+        if (ageFilter !== 'all' && profileAge !== ageFilter) {
+          show = false;
+        }
+        if (propertyFilter !== 'all' && profileProperty !== propertyFilter) {
+          show = false;
+        }
+
         profile.style.display = show ? 'flex' : 'none';
       });
     }
-    
-    // Attach filter events
-    document.getElementById('filterName').addEventListener('input', applyFilters);
-    document.getElementById('filterAge').addEventListener('change', applyFilters);
-    document.getElementById('filterJob').addEventListener('input', applyFilters);
-    document.getElementById('filterCompany').addEventListener('input', applyFilters);
-    document.getElementById('filterLocation').addEventListener('input', applyFilters);
-    document.getElementById('filterProperty').addEventListener('input', applyFilters);
+
+    document.getElementById('filter-location').addEventListener('change', applyFilters);
+    document.getElementById('filter-age').addEventListener('change', applyFilters);
+    document.getElementById('filter-property').addEventListener('change', applyFilters);
   </script>
 </body>
 </html>
