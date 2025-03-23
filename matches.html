@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matches</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #333333; /* Dark gray background */
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 {
+      color: #ADD8E6; /* Light blue heading */
+      text-align: center;
+    }
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .filters select {
+      padding: 5px 10px;
+      font-size: 14px;
+      border: 1px solid #000; /* Black border */
+      border-radius: 50px; /* Circular dropdowns */
+      outline: none;
+      background-color: #ADD8E6; /* Light blue background */
+      color: #000; /* Black text */
+    }
+    .profile {
+      background: #ADD8E6; /* Light blue background */
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-left: 5px solid #000; /* Black left border */
+    }
+    .profile-picture {
+      width: 75px; /* 50% larger than the original 50px */
+      height: 75px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    .profile-info {
+      flex: 1;
+      color: #000; /* Black text */
+    }
+    .match-toggle {
+      background: none;
+      border: 2px solid #000; /* Black border */
+      border-radius: 50%;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      outline: none;
+      color: #000; /* Black text */
+    }
+    .match-toggle.checked {
+      color: #ADD8E6; /* Light blue text */
+      border-color: #ADD8E6; /* Light blue border */
+      font-size: 36px; /* 50% larger than original */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Matches</h2>
+    
+    <!-- Filters -->
+    <div class="filters">
+      <select id="filter-location">
+        <option value="all">All Locations</option>
+        <option value="San Francisco, CA">San Francisco, CA</option>
+        <option value="New York, NY">New York, NY</option>
+        <option value="Seattle, WA">Seattle, WA</option>
+      </select>
+      <select id="filter-age">
+        <option value="all">All Ages</option>
+        <option value="18-20">18-20</option>
+        <option value="21-25">21-25</option>
+        <option value="26-30">26-30</option>
+      </select>
+      <select id="filter-property">
+        <option value="all">All Property Types</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Condo">Condo</option>
+        <option value="Townhouse">Townhouse</option>
+      </select>
+    </div>
+    
+    <!-- Profile Listings -->
+    <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Apartment">
+      <img src="file:///C:/Users/tamon/Downloads/pfp3.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info"> 
+        <p><strong>Name:</strong> Mary Goodborn</p>
+        <p><strong>Age:</strong> 25</p>
+        <p><strong>Job:</strong> Software Engineer</p>
+        <p><strong>Company:</strong> Google</p>
+        <p><strong>Location:</strong> San Francisco, CA</p>
+        <p><strong>Preferred Property Type:</strong> Apartment</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+
+    <div class="profile" data-age="27" data-location="New York, NY" data-property="Condo">
+      <img src="file:///C:/Users/tamon/Downloads/pfp2.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Elizabeth Olsen</p>
+        <p><strong>Age:</strong> 27</p>
+        <p><strong>Job:</strong> Marketing Manager</p>
+        <p><strong>Company:</strong> Facebook</p>
+        <p><strong>Location:</strong> New York, NY</p>
+        <p><strong>Preferred Property Type:</strong> Condo</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+
+    <div class="profile" data-age="23" data-location="Seattle, WA" data-property="Townhouse">
+      <img src="file:///C:/Users/tamon/Downloads/pfp1.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Laura Synder</p>
+        <p><strong>Age:</strong> 23</p>
+        <p><strong>Job:</strong> Data Analyst</p>
+        <p><strong>Company:</strong> Amazon</p>
+        <p><strong>Location:</strong> Seattle, WA</p>
+        <p><strong>Preferred Property Type:</strong> Townhouse</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+
+    <div class="profile" data-age="19" data-location="North Potomac, MD" data-property="Townhouse">
+      <img src="file:///C:/Users/tamon/Downloads/pfp4.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Ahmed Otyo</p>
+        <p><strong>Age:</strong> 19</p>
+        <p><strong>Job:</strong> Computer Engineer</p>
+        <p><strong>Company:</strong> Lockheed Martin</p>
+        <p><strong>Location:</strong> North Potomac, MD</p>
+        <p><strong>Preferred Property Type:</strong> Townhouse</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+
+    <div class="profile" data-age="21" data-location="New York, NY" data-property="Townhouse">
+      <img src="file:///C:/Users/tamon/Downloads/pfp5.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Greg Fiswo</p>
+        <p><strong>Age:</strong> 21</p>
+        <p><strong>Job:</strong> Hardware Engineer</p>
+        <p><strong>Company:</strong> HRT</p>
+        <p><strong>Location:</strong> New York, NY</p>
+        <p><strong>Preferred Property Type:</strong> Apartment</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+  </div>
+  
+  <script>
+    // Toggle plus sign to check mark with increased size when checked
+    document.querySelectorAll('.match-toggle').forEach(function(button) {
+      button.addEventListener('click', function() {
+        if (button.classList.contains('checked')) {
+          button.classList.remove('checked');
+          button.textContent = '+';
+        } else {
+          button.classList.add('checked');
+          button.textContent = '✓';
+        }
+      });
+    });
+    
+    // Filtering functionality
+    const filterLocation = document.getElementById('filter-location');
+    const filterAge = document.getElementById('filter-age');
+    const filterProperty = document.getElementById('filter-property');
+    const profiles = document.querySelectorAll('.profile');
+    
+    function filterProfiles() {
+      const selectedLocation = filterLocation.value;
+      const selectedAge = filterAge.value;
+      const selectedProperty = filterProperty.value;
+      
+      profiles.forEach(function(profile) {
+        const profileLocation = profile.getAttribute('data-location');
+        const profileAge = parseInt(profile.getAttribute('data-age'));
+        const profileProperty = profile.getAttribute('data-property');
+        
+        // Location filter
+        let locationMatch = (selectedLocation === 'all' || profileLocation === selectedLocation);
+        
+        // Age filter
+        let ageMatch = true;
+        if (selectedAge !== 'all') {
+          const [minAge, maxAge] = selectedAge.split('-').map(Number);
+          ageMatch = profileAge >= minAge && profileAge <= maxAge;
+        }
+        
+        // Property type filter
+        let propertyMatch = (selectedProperty === 'all' || profileProperty === selectedProperty);
+        
+        // Show or hide the profile based on the filters
+        if (locationMatch && ageMatch && propertyMatch) {
+          profile.style.display = 'flex';
+        } else {
+          profile.style.display = 'none';
+        }
+      });
+    }
+    
+    filterLocation.addEventListener('change', filterProfiles);
+    filterAge.addEventListener('change', filterProfiles);
+    filterProperty.addEventListener('change', filterProfiles);
+  </script>
+</body>
+</html>
