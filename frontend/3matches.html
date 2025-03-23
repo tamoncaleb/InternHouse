@@ -122,11 +122,36 @@
       align-items: center;
       cursor: pointer;
       outline: none;
+      margin-left: 10px;
     }
     .match-toggle.checked {
       color: #fff;
       border-color: #fff;
       font-size: 36px;
+    }
+    /* Compatibility checker styling */
+    .compatibility-checker {
+      margin-left: auto;
+      text-align: right;
+      width: 120px;
+    }
+    .compatibility-text {
+      font-weight: bold;
+      color: #00bfff;
+      margin: 0;
+      font-size: 14px;
+    }
+    .progress {
+      background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 5px;
+    }
+    .progress-bar {
+      background-color: #00bfff;
+      height: 100%;
+      width: 0%;
     }
   </style>
 </head>
@@ -213,7 +238,43 @@
       </div>
       <button class="match-toggle">+</button>
     </div>
-    <!-- Additional profiles can be added similarly -->
+    <!-- Additional profiles -->
+    <div class="profile" data-age="24" data-location="San Francisco, CA" data-property="Condo">
+      <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Kevin Miles</p>
+        <p><strong>Age:</strong> 24</p>
+        <p><strong>Job:</strong> UI/UX Designer</p>
+        <p><strong>Company:</strong> Adobe</p>
+        <p><strong>Location:</strong> San Francisco, CA</p>
+        <p><strong>Preferred Property Type:</strong> Condo</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+    <div class="profile" data-age="26" data-location="New York, NY" data-property="Apartment">
+      <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Sarah Thompson</p>
+        <p><strong>Age:</strong> 26</p>
+        <p><strong>Job:</strong> Product Manager</p>
+        <p><strong>Company:</strong> Microsoft</p>
+        <p><strong>Location:</strong> New York, NY</p>
+        <p><strong>Preferred Property Type:</strong> Apartment</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+    <div class="profile" data-age="22" data-location="Seattle, WA" data-property="Apartment">
+      <img src="pfp6.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Ryan Cooper</p>
+        <p><strong>Age:</strong> 22</p>
+        <p><strong>Job:</strong> Intern Developer</p>
+        <p><strong>Company:</strong> Uber</p>
+        <p><strong>Location:</strong> Seattle, WA</p>
+        <p><strong>Preferred Property Type:</strong> Apartment</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
   </div>
   
   <script>
@@ -243,13 +304,13 @@
         const profileProperty = profile.getAttribute('data-property');
 
         let show = true;
-        if(locVal !== 'all' && profileLocation !== locVal) {
+        if (locVal !== 'all' && profileLocation !== locVal) {
           show = false;
         }
-        if(ageVal !== 'all' && profileAge !== ageVal) {
+        if (ageVal !== 'all' && profileAge !== ageVal) {
           show = false;
         }
-        if(propVal !== 'all' && profileProperty !== propVal) {
+        if (propVal !== 'all' && profileProperty !== propVal) {
           show = false;
         }
         profile.style.display = show ? 'flex' : 'none';
@@ -259,6 +320,86 @@
     filterLocation.addEventListener('change', applyFilters);
     filterAge.addEventListener('change', applyFilters);
     filterProperty.addEventListener('change', applyFilters);
+
+    // --- Compatibility Matching Logic ---
+    // Retrieve the current user's data from localStorage (saved from page 2)
+    const storedData = localStorage.getItem("userData");
+    const currentUser = storedData ? JSON.parse(storedData) : null;
+
+    /**
+     * Calculate a compatibility percentage between the current user and a given profile.
+     * We weight the criteria as follows:
+     * - Matching location: +40%
+     * - Age difference within 3 years: +30%
+     * - Matching housing preference (compared to the profile's property type): +30%
+     *
+     * @param {HTMLElement} profile - The profile element.
+     * @param {Object} userData - The current user's data.
+     * @returns {number} - The compatibility score (0-100).
+     */
+    function calculateCompatibility(profile, userData) {
+      let score = 0;
+      // 1. Location match: add 40%
+      if (profile.getAttribute('data-location') === userData.location) {
+        score += 40;
+      }
+      // 2. Age difference within 3 years: add 30%
+      if (userData.age && profile.getAttribute('data-age')) {
+        const ageDiff = Math.abs(parseInt(profile.getAttribute('data-age')) - parseInt(userData.age));
+        if (ageDiff <= 3) {
+          score += 30;
+        }
+      }
+      // 3. Housing preference match (case-insensitive): add 30%
+      if (userData.housing_pref && profile.getAttribute('data-property')) {
+        if (profile.getAttribute('data-property').toLowerCase() === userData.housing_pref.toLowerCase()) {
+          score += 30;
+        }
+      }
+      return score;
+    }
+
+    /**
+     * Loop over all profiles and add a compatibility checker element (with a percentage text and progress bar)
+     * for each profile if the current user's data is available.
+     */
+    function displayCompatibility() {
+      if (!currentUser) return;
+
+      profiles.forEach(profile => {
+        const compatibility = calculateCompatibility(profile, currentUser);
+
+        // Create the compatibility checker container
+        const checkerDiv = document.createElement('div');
+        checkerDiv.className = "compatibility-checker";
+
+        // Create text element showing percentage
+        const textElement = document.createElement('p');
+        textElement.className = "compatibility-text";
+        textElement.textContent = `${compatibility}%`;
+
+        // Create progress bar container
+        const progressContainer = document.createElement('div');
+        progressContainer.className = "progress";
+
+        // Create progress bar element and set its width based on compatibility
+        const progressBar = document.createElement('div');
+        progressBar.className = "progress-bar";
+        progressBar.style.width = compatibility + "%";
+
+        // Append progress bar into container and then add both to the checker div
+        progressContainer.appendChild(progressBar);
+        checkerDiv.appendChild(textElement);
+        checkerDiv.appendChild(progressContainer);
+
+        // Insert the compatibility checker before the match toggle button in the profile container
+        const matchToggle = profile.querySelector('.match-toggle');
+        profile.insertBefore(checkerDiv, matchToggle);
+      });
+    }
+
+    // Run the compatibility calculation after the DOM content is loaded
+    window.addEventListener('DOMContentLoaded', displayCompatibility);
   </script>
 </body>
 </html>
