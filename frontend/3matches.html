@@ -7,29 +7,64 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #333333; /* Dark gray background */
+      background-color: #121212;
       margin: 0;
-      padding: 20px;
+      padding: 70px 20px 20px; /* leave room for fixed header */
+      color: #e0e0e0;
+    }
+    /* Common header */
+    header {
+      background-color: #000;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+    }
+    header a {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      height: 60px;
+    }
+    .nav-links {
+      margin-left: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      color: #00bfff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
     }
     .container {
       max-width: 600px;
       margin: auto;
     }
     h2 {
-      color: #ADD8E6; /* Light blue heading */
+      color: #00bfff;
       text-align: center;
+      margin-bottom: 20px;
     }
-    /* Button group styling */
+    /* Button group */
     .button-group {
       text-align: center;
       margin-bottom: 20px;
     }
     .button-group button {
       display: inline-block;
-      margin: 10px 10px;
+      margin: 10px;
       padding: 10px 20px;
-      background-color: #00bfff; /* Light blue */
-      color: #000; /* Black text */
+      background-color: #00bfff;
+      color: #000;
       border: none;
       border-radius: 4px;
       font-size: 16px;
@@ -38,6 +73,7 @@
     .button-group button:hover {
       background-color: #009acd;
     }
+    /* Filters styling */
     .filters {
       display: flex;
       justify-content: space-between;
@@ -46,21 +82,22 @@
     .filters select {
       padding: 5px 10px;
       font-size: 14px;
-      border: 1px solid #000; /* Black border */
-      border-radius: 50px; /* Circular dropdowns */
+      border: 1px solid #000;
+      border-radius: 50px;
       outline: none;
-      background-color: #ADD8E6; /* Light blue background */
-      color: #000; /* Black text */
+      background-color: #2c2c2c;
+      color: #e0e0e0;
     }
+    /* Profile listings */
     .profile {
-      background: #ADD8E6; /* Light blue background */
+      background: #1c1c1c;
       padding: 15px;
       margin-bottom: 10px;
       border-radius: 8px;
       display: flex;
       align-items: center;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      border-left: 5px solid #000; /* Black left border */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+      border-left: 5px solid #00bfff;
     }
     .profile-picture {
       width: 75px;
@@ -71,11 +108,11 @@
     }
     .profile-info {
       flex: 1;
-      color: #000; /* Black text */
+      color: #e0e0e0;
     }
     .match-toggle {
       background: none;
-      border: 2px solid #000; /* Black border */
+      border: 2px solid #000;
       border-radius: 50%;
       font-size: 24px;
       width: 40px;
@@ -85,24 +122,39 @@
       align-items: center;
       cursor: pointer;
       outline: none;
-      color: #000; /* Black text */
     }
     .match-toggle.checked {
-    color: #fff; /* White text for contrast */
-    border-color: #fff; /* White border for consistency */
-    font-size: 36px; /* 50% larger than original */
+      color: #fff;
+      border-color: #fff;
+      font-size: 36px;
     }
   </style>
 </head>
 <body>
+  <!-- Common header -->
+  <header>
+    <a href="2profile.html">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">I</text>
+        <g transform="translate(50,20)">
+          <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
+          <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
+          <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
+          <circle cx="41" cy="68" r="2" fill="#fff"/>
+        </g>
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">H</text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="3matches.html">Matches</a>
+      <a href="4chat.html">Chat</a>
+      <a href="5housesearch.html">Properties</a>
+      <a href="6account.html">Account</a>
+    </div>
+  </header>
+  
   <div class="container">
     <h2>Matches</h2>
-    <!-- Button group for navigation -->
-    <div class="button-group">
-      <button onclick="window.location.href='4chat.html'">Messages</button>
-      <button onclick="window.location.href='5housesearch.html'">View Properties</button>
-    </div>
-    
     <!-- Filters -->
     <div class="filters">
       <select id="filter-location">
@@ -124,10 +176,9 @@
         <option value="Townhouse">Townhouse</option>
       </select>
     </div>
-    
     <!-- Profile Listings -->
     <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Apartment">
-      <img src="https://www.google.com/imgres?q=real%20profile%20pics&imgurl=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D100068323624559&imgrefurl=https%3A%2F%2Fwww.facebook.com%2Fviralpixescom%2F&docid=EwF6WuRV6YllhM&tbnid=D2DPvGjw9dJc_M&vet=12ahUKEwjQoMqVz5-MAxUUElkFHUz_LhUQM3oECGUQAA..i&w=693&h=693&hcb=2&ved=2ahUKEwjQoMqVz5-MAxUUElkFHUz_LhUQM3oECGUQAA" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info"> 
         <p><strong>Name:</strong> Mary Goodborn</p>
         <p><strong>Age:</strong> 25</p>
@@ -138,7 +189,6 @@
       </div>
       <button class="match-toggle">+</button>
     </div>
-
     <div class="profile" data-age="27" data-location="New York, NY" data-property="Condo">
       <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
@@ -151,7 +201,6 @@
       </div>
       <button class="match-toggle">+</button>
     </div>
-
     <div class="profile" data-age="23" data-location="Seattle, WA" data-property="Townhouse">
       <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
@@ -164,81 +213,52 @@
       </div>
       <button class="match-toggle">+</button>
     </div>
-
-    <div class="profile" data-age="19" data-location="North Potomac, MD" data-property="Townhouse">
-      <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Ahmed Otyo</p>
-        <p><strong>Age:</strong> 19</p>
-        <p><strong>Job:</strong> Computer Engineer</p>
-        <p><strong>Company:</strong> Lockheed Martin</p>
-        <p><strong>Location:</strong> North Potomac, MD</p>
-        <p><strong>Preferred Property Type:</strong> Townhouse</p>
-      </div>
-      <button class="match-toggle">+</button>
-    </div>
-
-    <div class="profile" data-age="21" data-location="New York, NY" data-property="Townhouse">
-      <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
-      <div class="profile-info">
-        <p><strong>Name:</strong> Greg Fiswo</p>
-        <p><strong>Age:</strong> 21</p>
-        <p><strong>Job:</strong> Hardware Engineer</p>
-        <p><strong>Company:</strong> HRT</p>
-        <p><strong>Location:</strong> New York, NY</p>
-        <p><strong>Preferred Property Type:</strong> Apartment</p>
-      </div>
-      <button class="match-toggle">+</button>
-    </div>
+    <!-- Additional profiles can be added similarly -->
   </div>
   
   <script>
-    // Toggle plus sign to check mark when clicked
-    document.querySelectorAll('.match-toggle').forEach(function(button) {
-      button.addEventListener('click', function() {
-        if (button.classList.contains('checked')) {
-          button.classList.remove('checked');
-          button.textContent = '+';
-        } else {
-          button.classList.add('checked');
-          button.textContent = '✓';
-        }
+    // Toggle the match button (plus to check)
+    const matchToggles = document.querySelectorAll('.match-toggle');
+    matchToggles.forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('checked');
+        this.textContent = this.classList.contains('checked') ? '✔' : '+';
       });
     });
-    
+
     // Filtering functionality
     const filterLocation = document.getElementById('filter-location');
     const filterAge = document.getElementById('filter-age');
     const filterProperty = document.getElementById('filter-property');
     const profiles = document.querySelectorAll('.profile');
-    
-    function filterProfiles() {
-      const selectedLocation = filterLocation.value;
-      const selectedAge = filterAge.value;
-      const selectedProperty = filterProperty.value;
-      
-      profiles.forEach(function(profile) {
-        const profileLocation = profile.getAttribute('data-location');
-        const profileAge = parseInt(profile.getAttribute('data-age'));
-        const profileProperty = profile.getAttribute('data-property');
-      
 
-        // Check filters
-        let locationMatch = (selectedLocation === 'all' || profileLocation === selectedLocation);
-        let ageMatch = selectedAge === 'all' ? true : (() => {
-          const [minAge, maxAge] = selectedAge.split('-').map(Number);
-          return profileAge >= minAge && profileAge <= maxAge;
-        })();
-        let propertyMatch = (selectedProperty === 'all' || profileProperty === selectedProperty);
-        
-        // Show or hide based on filters
-        profile.style.display = (locationMatch && ageMatch && propertyMatch) ? 'flex' : 'none';
+    function applyFilters() {
+      const locVal = filterLocation.value;
+      const ageVal = filterAge.value;
+      const propVal = filterProperty.value;
+
+      profiles.forEach(profile => {
+        const profileLocation = profile.getAttribute('data-location');
+        const profileAge = profile.getAttribute('data-age');
+        const profileProperty = profile.getAttribute('data-property');
+
+        let show = true;
+        if(locVal !== 'all' && profileLocation !== locVal) {
+          show = false;
+        }
+        if(ageVal !== 'all' && profileAge !== ageVal) {
+          show = false;
+        }
+        if(propVal !== 'all' && profileProperty !== propVal) {
+          show = false;
+        }
+        profile.style.display = show ? 'flex' : 'none';
       });
     }
-    
-    filterLocation.addEventListener('change', filterProfiles);
-    filterAge.addEventListener('change', filterProfiles);
-    filterProperty.addEventListener('change', filterProfiles);
+
+    filterLocation.addEventListener('change', applyFilters);
+    filterAge.addEventListener('change', applyFilters);
+    filterProperty.addEventListener('change', applyFilters);
   </script>
 </body>
 </html>

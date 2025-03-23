@@ -136,6 +136,7 @@
 
     .fade-out {
       opacity: 0;
+      transition: opacity 1s ease-out;
     }
 
     .greeting {
@@ -148,7 +149,7 @@
     .floating-bubble {
       position: absolute;
       border-radius: 50%;
-      background-color: #aed581;
+      background-color: #70b5ec;
       color: #fff;
       display: flex;
       align-items: center;
@@ -159,7 +160,7 @@
       opacity: 0.95;
       font-size: 18px;
       z-index: 1;
-      box-shadow: 0 0 25px rgba(174, 213, 129, 0.6);
+      box-shadow: 0 0 25px rgba(68, 99, 124, 0.6);
       animation: fadeIn 1s ease-in-out, pulse 3s infinite, drift 10s infinite linear alternate;
     }
 
@@ -197,6 +198,40 @@
       }
       100% {
         box-shadow: 0 0 0 0 rgba(0,191,255, 0);
+      }
+    }
+    
+    /* Matching overlay styles */
+    #matchOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #00bfff;
+      font-size: 32px;
+    }
+    
+    .match-ball {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #00bfff;
+      animation: moveToCenter 3s forwards;
+    }
+    
+    @keyframes moveToCenter {
+      to {
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
   </style>
@@ -355,6 +390,10 @@
           chat.scrollTop = chat.scrollHeight;
         }, 600);
       } else if (currentQuestion === questions.length) {
+        // Remove the answer input area
+        const inputBox = document.getElementById("inputBox");
+        if (inputBox) inputBox.remove();
+
         // Show profile picture upload prompt
         const uploadBubble = document.createElement("div");
         uploadBubble.className = "bubble question";
@@ -383,15 +422,13 @@
         const chat = document.getElementById("chat");
         const uploadBox = document.getElementById("uploadBox");
         const uploadBubble = document.getElementById("upload-q");
-        const inputBox = document.getElementById("inputBox");
 
         if (uploadBox) uploadBox.remove();
         if (uploadBubble) uploadBubble.remove();
-        if (inputBox) inputBox.remove();
 
-        // Upgraded profile picture interface matching our theme:
-        // Container is now transparent so the content appears floating.
+        // Create profile container with a floating look (transparent background)
         const profileContainer = document.createElement("div");
+        profileContainer.className = "profile-container";
         profileContainer.style.display = "flex";
         profileContainer.style.flexDirection = "column";
         profileContainer.style.alignItems = "center";
@@ -401,7 +438,6 @@
         profileContainer.style.borderRadius = "20px";
         profileContainer.style.background = "transparent";
         profileContainer.style.color = "#fff";
-        // Remove box shadow for a lighter floating effect (or adjust as desired)
         profileContainer.style.boxShadow = "none";
 
         // "You're all set" text above the profile picture
@@ -446,12 +482,12 @@
         matchButton.style.display = "flex";
         matchButton.style.alignItems = "center";
         matchButton.style.justifyContent = "center";
-        // When pressed, navigate to 3matches.html
+        // When Match Me is clicked, start the matching animation sequence.
         matchButton.onclick = () => {
-          window.location.href = '3matches.html';
+          startMatchingAnimation();
         };
 
-        // Order: greeting, profile picture, Match Me button
+        // Append elements in order: greeting on top, then profile picture, then Match Me button
         profileContainer.appendChild(greeting);
         profileContainer.appendChild(picContainer);
         profileContainer.appendChild(matchButton);
@@ -460,6 +496,48 @@
 
         console.log("Final profile data:", userData);
       }
+    }
+    
+    function startMatchingAnimation() {
+      // Fade out the profile container
+      const profileContainer = document.querySelector('.profile-container');
+      if (profileContainer) {
+        profileContainer.classList.add("fade-out");
+        setTimeout(() => {
+          profileContainer.remove();
+          createMatchingOverlay();
+        }, 1000);
+      } else {
+        createMatchingOverlay();
+      }
+    }
+    
+    function createMatchingOverlay() {
+      // Create an overlay that covers the whole viewport.
+      const overlay = document.createElement("div");
+      overlay.id = "matchOverlay";
+      overlay.innerText = "Finding matches...";
+      document.body.appendChild(overlay);
+      
+      // Create several "match-ball" elements.
+      for (let i = 0; i < 6; i++) {
+        const ball = document.createElement("div");
+        ball.className = "match-ball";
+        // Set random starting positions near the edges.
+        ball.style.top = Math.random() * 80 + "px";
+        ball.style.left = Math.random() * (window.innerWidth - 80) + "px";
+        ball.style.animationDelay = (Math.random() * 1) + "s";
+        overlay.appendChild(ball);
+      }
+      
+      // After a delay, update the overlay text to "Complete" and then redirect.
+      setTimeout(() => {
+        overlay.innerText = "Complete";
+        overlay.style.fontSize = "48px";
+        setTimeout(() => {
+          window.location.href = "3matches.html"; // Replace with your next page URL.
+        }, 1500);
+      }, 5000);
     }
   </script>
 </body>
