@@ -21,6 +21,7 @@
       text-decoration: none;
       color: inherit;
     }
+
     /* Header styling */
     header {
       background: linear-gradient(135deg, #00bfff, #005f8f);
@@ -35,7 +36,7 @@
 
     /* Main container for chat list */
     .chat-container {
-      max-width: 800px; /* Increased width for larger chat container */
+      max-width: 900px; /* Increased width for a bigger chat area */
       margin: 30px auto;
       background: #242424;
       border-radius: 8px;
@@ -59,6 +60,12 @@
       background: #2a2a2a;
     }
 
+    /* Icons on the left */
+    .icon-left {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
     /* Profile picture or group badge */
     .profile-picture,
     .group-badge {
@@ -74,9 +81,9 @@
       font-weight: bold;
       font-size: 16px;
     }
-    /* For group chats, you can differentiate color or text as needed */
+    /* Group chats have a slightly different color or style */
     .group-badge {
-      background: #009acd; /* Slightly different shade of blue */
+      background: #009acd; 
     }
 
     /* Chat info: name + preview */
@@ -89,9 +96,6 @@
     .chat-name {
       font-size: 16px;
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
     .chat-preview {
       font-size: 14px;
@@ -104,12 +108,6 @@
     }
 
     /* Icons for homeowner, matching, matched, etc. */
-    .house-icon,
-    .plus-icon,
-    .check-icon {
-      font-size: 14px;
-      opacity: 0.8;
-    }
     .house-icon {
       color: #ffa500; /* Orange for house owners */
     }
@@ -138,24 +136,20 @@
 
     <!-- Single-person chat, matched (check icon) -->
     <div class="chat-item">
+      <span class="check-icon icon-left">✔</span>
       <div class="profile-picture">J</div>
       <div class="chat-info">
-        <div class="chat-name">
-          John D.
-          <span class="check-icon">✔</span>
-        </div>
+        <div class="chat-name">John D.</div>
         <div class="chat-preview">Hey, are you free tomorrow?</div>
       </div>
     </div>
 
     <!-- Single-person chat, homeowner (house icon) -->
     <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
       <div class="profile-picture">J</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Jim R.
-          <span class="house-icon">🏠</span>
-        </div>
+        <div class="chat-name">Jim R.</div>
         <div class="chat-preview">I have a room for rent!</div>
       </div>
     </div>
@@ -164,21 +158,17 @@
     <div class="chat-item">
       <div class="group-badge">3</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Summer in NY
-        </div>
+        <div class="chat-name">Summer in NY</div>
         <div class="chat-preview">We have 2 spots left!</div>
       </div>
     </div>
 
     <!-- Single-person chat, trying to match (plus icon) -->
     <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
       <div class="profile-picture">A</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Amy
-          <span class="plus-icon">➕</span>
-        </div>
+        <div class="chat-name">Amy</div>
         <div class="chat-preview">Amy wants to match with you</div>
       </div>
     </div>
@@ -187,45 +177,37 @@
     <div class="chat-item">
       <div class="group-badge">4</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Google Intern Roommates
-        </div>
+        <div class="chat-name">Google Intern Roommates</div>
         <div class="chat-preview">We need one more person!</div>
       </div>
     </div>
 
     <!-- Single-person chat, plus icon -->
     <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
       <div class="profile-picture">B</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Bella S.
-          <span class="plus-icon">➕</span>
-        </div>
+        <div class="chat-name">Bella S.</div>
         <div class="chat-preview">Hey! Interested in splitting a place?</div>
       </div>
     </div>
 
     <!-- Single-person chat, matched (check icon) -->
     <div class="chat-item">
+      <span class="check-icon icon-left">✔</span>
       <div class="profile-picture">M</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Mark T.
-          <span class="check-icon">✔</span>
-        </div>
+        <div class="chat-name">Mark T.</div>
         <div class="chat-preview">Looking forward to rooming together!</div>
       </div>
     </div>
 
     <!-- Single-person chat, homeowner (house icon) -->
     <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
       <div class="profile-picture">L</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Lauren G.
-          <span class="house-icon">🏠</span>
-        </div>
+        <div class="chat-name">Lauren G.</div>
         <div class="chat-preview">I can give you a tour next week.</div>
       </div>
     </div>
@@ -234,9 +216,7 @@
     <div class="chat-item">
       <div class="group-badge">3</div>
       <div class="chat-info">
-        <div class="chat-name">
-          Room 202
-        </div>
+        <div class="chat-name">Room 202</div>
         <div class="chat-preview">We just got a new roommate!</div>
       </div>
     </div>
@@ -245,10 +225,48 @@
     <div class="chat-item">
       <div class="group-badge">5</div>
       <div class="chat-info">
-        <div class="chat-name">
-          The Big Apple Crew
-        </div>
+        <div class="chat-name">The Big Apple Crew</div>
         <div class="chat-preview">When are you all moving in?</div>
+      </div>
+    </div>
+
+    <!-- Additional Examples -->
+
+    <!-- Single-person chat, plus icon -->
+    <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
+      <div class="profile-picture">C</div>
+      <div class="chat-info">
+        <div class="chat-name">Chris W.</div>
+        <div class="chat-preview">Are you still looking for a place?</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
+      <div class="profile-picture">V</div>
+      <div class="chat-info">
+        <div class="chat-name">Vivian P.</div>
+        <div class="chat-preview">Open house this weekend!</div>
+      </div>
+    </div>
+
+    <!-- Group chat (2 people) -->
+    <div class="chat-item">
+      <div class="group-badge">2</div>
+      <div class="chat-info">
+        <div class="chat-name">Lisa & Dani</div>
+        <div class="chat-preview">We're looking for a 3rd roommate.</div>
+      </div>
+    </div>
+
+    <!-- Group chat (6 people) -->
+    <div class="chat-item">
+      <div class="group-badge">6</div>
+      <div class="chat-info">
+        <div class="chat-name">Off-Campus Crew</div>
+        <div class="chat-preview">Our lease starts next month!</div>
       </div>
     </div>
 
