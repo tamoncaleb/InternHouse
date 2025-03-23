@@ -59,14 +59,17 @@
     .chat-item.active {
       background: #444;
     }
-    /* Icons moved to the left */
+    /* Left icons styling */
     .icon-left {
       margin-right: 10px;
       font-size: 18px;
     }
+    /* Group icon specific styling */
+    .group-icon {
+      /* Same as icon-left; extra customization possible if needed */
+    }
     /* Profile picture / group badge */
-    .profile-picture,
-    .group-badge {
+    .profile-picture {
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -78,8 +81,8 @@
       font-weight: bold;
       font-size: 16px;
       margin-right: 10px;
+      flex-shrink: 0; /* Ensure it does not shrink */
     }
-    .group-badge { background: #009acd; }
     /* Chat info in list */
     .chat-info {
       flex: 1;
@@ -91,9 +94,11 @@
       font-weight: bold;
       margin-bottom: 5px;
     }
+    /* Updated preview text with fixed width and ellipsis */
     .chat-preview {
       font-size: 14px;
       color: #ccc;
+      max-width: 150px; /* Fixed max width prevents overflow */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -192,7 +197,7 @@
   </header>
   <div class="main-container">
     <div class="chat-list">
-      <!-- Chat list items; data-chat is used to identify which conversation to load -->
+      <!-- Individual chat: matched -->
       <div class="chat-item" data-chat="chat1">
         <span class="check-icon icon-left">✔</span>
         <div class="profile-picture">J</div>
@@ -201,6 +206,7 @@
           <div class="chat-preview">Hey, are you free tomorrow?</div>
         </div>
       </div>
+      <!-- Individual chat: homeowner -->
       <div class="chat-item" data-chat="chat2">
         <span class="house-icon icon-left">🏠</span>
         <div class="profile-picture">J</div>
@@ -209,13 +215,16 @@
           <div class="chat-preview">I have a room for rent!</div>
         </div>
       </div>
+      <!-- Group chat: now with a group icon -->
       <div class="chat-item" data-chat="chat3">
-        <div class="group-badge">3</div>
+        <span class="group-icon icon-left">👥</span>
+        <div class="profile-picture">3</div>
         <div class="chat-info">
           <div class="chat-name">Summer in NY</div>
-          <div class="chat-preview">We have 2 spots left!</div>
+          <div class="chat-preview">We have 2 spots left and more details that might be really long...</div>
         </div>
       </div>
+      <!-- Individual chat: trying to match -->
       <div class="chat-item" data-chat="chat4">
         <span class="plus-icon icon-left">➕</span>
         <div class="profile-picture">A</div>
@@ -224,13 +233,16 @@
           <div class="chat-preview">Amy wants to match with you</div>
         </div>
       </div>
+      <!-- Group chat -->
       <div class="chat-item" data-chat="chat5">
-        <div class="group-badge">4</div>
+        <span class="group-icon icon-left">👥</span>
+        <div class="profile-picture">4</div>
         <div class="chat-info">
           <div class="chat-name">Google Intern Roommates</div>
           <div class="chat-preview">We need one more person!</div>
         </div>
       </div>
+      <!-- Individual chat: plus icon -->
       <div class="chat-item" data-chat="chat6">
         <span class="plus-icon icon-left">➕</span>
         <div class="profile-picture">B</div>
@@ -239,6 +251,7 @@
           <div class="chat-preview">Hey! Interested in splitting a place?</div>
         </div>
       </div>
+      <!-- Individual chat: matched -->
       <div class="chat-item" data-chat="chat7">
         <span class="check-icon icon-left">✔</span>
         <div class="profile-picture">M</div>
@@ -247,6 +260,7 @@
           <div class="chat-preview">Looking forward to rooming together!</div>
         </div>
       </div>
+      <!-- Individual chat: homeowner -->
       <div class="chat-item" data-chat="chat8">
         <span class="house-icon icon-left">🏠</span>
         <div class="profile-picture">L</div>
@@ -273,14 +287,16 @@
         </div>
       </div>
       <div class="chat-item" data-chat="chat11">
-        <div class="group-badge">2</div>
+        <span class="group-icon icon-left">👥</span>
+        <div class="profile-picture">2</div>
         <div class="chat-info">
           <div class="chat-name">Lisa & Dani</div>
           <div class="chat-preview">We're looking for a 3rd roommate.</div>
         </div>
       </div>
       <div class="chat-item" data-chat="chat12">
-        <div class="group-badge">6</div>
+        <span class="group-icon icon-left">👥</span>
+        <div class="profile-picture">6</div>
         <div class="chat-info">
           <div class="chat-name">Off-Campus Crew</div>
           <div class="chat-preview">Our lease starts next month!</div>
@@ -318,7 +334,7 @@
       chat3: {
         chatName: "Summer in NY",
         messages: [
-          { sender: "them", text: "We have 2 spots left!", profile: "S" }
+          { sender: "them", text: "We have 2 spots left and more details that might be really long...", profile: "S" }
         ]
       },
       chat4: {
