@@ -19,10 +19,14 @@
       color: #ADD8E6; /* Light blue heading */
       text-align: center;
     }
-    /* New Messages button styling */
-    .messages-button {
-      display: block;
-      margin: 20px auto;
+    /* New Buttons styling */
+    .button-group {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .button-group button {
+      display: inline-block;
+      margin: 10px 10px;
       padding: 10px 20px;
       background-color: #00bfff; /* Light blue */
       color: #000; /* Black text */
@@ -31,7 +35,7 @@
       font-size: 16px;
       cursor: pointer;
     }
-    .messages-button:hover {
+    .button-group button:hover {
       background-color: #009acd;
     }
     .filters {
@@ -59,7 +63,7 @@
       border-left: 5px solid #000; /* Black left border */
     }
     .profile-picture {
-      width: 75px; /* 50% larger than the original 50px */
+      width: 75px;
       height: 75px;
       border-radius: 50%;
       object-fit: cover;
@@ -93,8 +97,11 @@
 <body>
   <div class="container">
     <h2>Matches</h2>
-    <!-- New Messages button -->
-    <button class="messages-button" onclick="window.location.href='4chat.html'">Messages</button>
+    <!-- Button group for navigation -->
+    <div class="button-group">
+      <button onclick="window.location.href='4chat.html'">Messages</button>
+      <button onclick="window.location.href='5housesearch.html'">View Properties</button>
+    </div>
     
     <!-- Filters -->
     <div class="filters">
