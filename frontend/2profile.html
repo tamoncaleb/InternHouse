@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Chat Bubbles</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Pacifico&family=Indie+Flower&family=Fredoka:wght@500&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      /* Overall gradient background: black -> dark gray -> light blue */
+      background: linear-gradient(to bottom, #000, #1c1c1c, #00bfff);
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+      height: 100vh;
+    }
+    
+    /* Fixed header with logo */
+    header {
+      background-color: #000;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+    }
+    header a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .logo {
+      height: 80px;
+    }
+    .match-me-text {
+      margin-left: 10px;
+      color: #00bfff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    /* Updated Chat Container with matching theme */
+    .chat-container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      background: linear-gradient(135deg, rgba(28,28,28,0.95), rgba(0,191,255,0.95));
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 10;
+      margin-top: 10vh;
+      color: #fff;
+    }
+
+    .bubble {
+      padding: 18px 24px;
+      border-radius: 25px;
+      margin: 16px 0;
+      max-width: 80%;
+      display: inline-block;
+      font-size: 20px;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      color: #fff;
+      background-color: rgba(20, 20, 20, 0.85);
+      border: 1px solid #00bfff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    .question {
+      background-color: #81d4fa;
+      border: 1px solid #00bfff;
+      font-family: 'Fredoka', sans-serif;
+      animation: pulse 2s infinite;
+    }
+
+    .answer {
+      background-color: #333;
+      border: 1px solid #00bfff;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      background-color: #42a5f5;
+      color: white;
+      border-radius: 25px;
+      padding: 10px;
+      box-shadow: 0 0 20px rgba(66, 165, 245, 0.6);
+      margin-top: 10px;
+      animation: floatIn 0.6s ease-out;
+      position: relative;
+    }
+
+    .input-box::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 60px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 20px solid #42a5f5;
+    }
+
+    .input-box input {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      outline: none;
+      color: #333;
+    }
+
+    .input-box button {
+      margin-left: 10px;
+      padding: 10px 16px;
+      border: none;
+      background-color: #1e88e5;
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    .greeting {
+      margin-bottom: 20px;
+      font-size: 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .floating-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background-color: #aed581;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      word-wrap: break-word;
+      padding: 20px;
+      opacity: 0.95;
+      font-size: 18px;
+      z-index: 1;
+      box-shadow: 0 0 25px rgba(174, 213, 129, 0.6);
+      animation: fadeIn 1s ease-in-out, pulse 3s infinite, drift 10s infinite linear alternate;
+    }
+
+    @keyframes fadeIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 0.95; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes floatIn {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(10px, -5px); }
+      50% { transform: translate(-10px, 10px); }
+      75% { transform: translate(5px, 5px); }
+      100% { transform: translate(0, 0); }
+    }
+    
+    /* Pulsing ring around the profile picture container */
+    @keyframes pulseRing {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0,191,255, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(0,191,255, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(0,191,255, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with InternHouse Logo -->
+  <header>
+    <a href="match.html">
+      <!-- InternHouse Logo: I (serif style), blue & white house, H -->
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+        <!-- Letter I (serif style) -->
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
+          I
+        </text>
+        <!-- House in the center -->
+        <g transform="translate(50,20)">
+          <!-- Roof -->
+          <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
+          <!-- House body -->
+          <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
+          <!-- Door -->
+          <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
+          <!-- Door knob -->
+          <circle cx="41" cy="68" r="2" fill="#fff"/>
+        </g>
+        <!-- Letter H -->
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
+          H
+        </text>
+      </svg>
+      <span class="match-me-text">Match Me</span>
+    </a>
+  </header>
+  
+  <!-- Chat Container -->
+  <div class="chat-container" id="chat">
+    <div class="bubble question" id="q0">Hi! What's your name?</div>
+    <div class="input-box" id="inputBox">
+      <input type="text" id="userInput" list="suggestions" placeholder="Type your answer..." onkeydown="if(event.key==='Enter') submitAnswer()">
+      <datalist id="suggestions"></datalist>        
+      <button onclick="submitAnswer()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const fonts = [
+      'Quicksand, sans-serif',
+      'Pacifico, cursive',
+      'Indie Flower, cursive',
+      'Fredoka, sans-serif'
+    ];
+
+    const questions = [
+      { q: "What's your name?", id: "name" },
+      { q: "How old are you?", id: "age" },
+      { q: "What's your favorite hobby?", id: "hobby" },
+      { q: "What do you do for work or school?", id: "occupation" },
+      { q: "What is your field of study?", id: "field", suggestions: ["Computer Science", "Business", "Engineering", "Biology", "Design"] },
+      { q: "What school do you go to?", id: "school", suggestions: ["Stanford", "MIT", "UCLA", "Harvard", "Berkeley"] },
+      { q: "What company are you interning at?", id: "company", suggestions: ["Google", "Meta", "Amazon", "Apple", "Microsoft"] },
+      { q: "What city is your internship located in?", id: "location", suggestions: ["New York", "San Francisco", "Seattle", "Austin", "Boston"] },
+      { q: "What is your preferred budget range for housing (e.g. $800-$1200)?", id: "budget" },
+      { q: "Do you have preferred neighborhoods or housing types?", id: "housing_pref" }
+    ];
+
+    let currentQuestion = 0;
+    let userData = {};
+    let bubblePositions = [];
+
+    function getRandomFont() {
+      const index = Math.floor(Math.random() * fonts.length);
+      return fonts[index];
+    }
+
+    function isOverlapping(newRect) {
+      return bubblePositions.some(pos => {
+        const dx = pos.left - newRect.left;
+        const dy = pos.top - newRect.top;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (pos.size + newRect.size) / 1.5;
+      });
+    }
+
+    function createFloatingBubble(text, index) {
+      const chatContainer = document.getElementById("chat");
+      const rect = chatContainer.getBoundingClientRect();
+      const bubble = document.createElement("div");
+      bubble.className = "floating-bubble";
+      bubble.innerText = text;
+
+      const baseSize = index === 0 ? 200 : 120;
+      const size = baseSize - index * 10;
+      bubble.style.width = size + 'px';
+      bubble.style.height = size + 'px';
+      bubble.style.fontSize = index === 0 ? '20px' : '16px';
+      bubble.style.fontFamily = getRandomFont();
+
+      let attempts = 0;
+      let top, left;
+      do {
+        top = Math.random() * (window.innerHeight - size - 100);
+        left = Math.random() * (window.innerWidth - size - 100);
+        attempts++;
+      } while (isOverlapping({ top, left, size }) && attempts < 50);
+
+      bubble.style.top = `${top}px`;
+      bubble.style.left = `${left}px`;
+      bubblePositions.push({ top, left, size });
+
+      document.body.appendChild(bubble);
+    }
+    
+    function populateSuggestions(suggestions) {
+      const datalist = document.getElementById("suggestions");
+      datalist.innerHTML = "";
+      suggestions.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item;
+        datalist.appendChild(option);
+      });
+    }
+
+    function submitAnswer() {
+      const input = document.getElementById("userInput");
+      const chat = document.getElementById("chat");
+      const answer = input.value.trim();
+      const current = questions[currentQuestion];
+      const lastQuestion = document.getElementById("q" + currentQuestion);
+
+      if (lastQuestion) {
+        lastQuestion.classList.add("fade-out");
+        setTimeout(() => lastQuestion.remove(), 500);
+      }
+
+      if (answer !== "") {
+        userData[current.id] = answer;
+        createFloatingBubble(answer, currentQuestion);
+      }
+
+      input.value = "";
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        setTimeout(() => {
+          const next = questions[currentQuestion];
+          const questionBubble = document.createElement("div");
+          questionBubble.className = "bubble question";
+          questionBubble.id = "q" + currentQuestion;
+          questionBubble.innerText = next.q;
+          if (next.suggestions) {
+            populateSuggestions(next.suggestions);
+          } else {
+            populateSuggestions([]);
+          }
+          chat.appendChild(questionBubble);
+          chat.scrollTop = chat.scrollHeight;
+        }, 600);
+      } else if (currentQuestion === questions.length) {
+        // Show profile picture upload prompt
+        const uploadBubble = document.createElement("div");
+        uploadBubble.className = "bubble question";
+        uploadBubble.id = "upload-q";
+        uploadBubble.innerText = "Upload a profile picture to finish!";
+        chat.appendChild(uploadBubble);
+
+        const uploadBox = document.createElement("div");
+        uploadBox.className = "input-box";
+        uploadBox.id = "uploadBox";
+        uploadBox.innerHTML = `
+          <input type="file" id="profilePic" accept="image/*">
+          <button onclick="finishProfile()">Upload</button>
+        `;
+        chat.appendChild(uploadBox);
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    function finishProfile() {
+      const uploadInput = document.getElementById("profilePic");
+      if (uploadInput.files.length > 0) {
+        const file = uploadInput.files[0];
+        userData.profilePic = URL.createObjectURL(file);
+
+        const chat = document.getElementById("chat");
+        const uploadBox = document.getElementById("uploadBox");
+        const uploadBubble = document.getElementById("upload-q");
+        const inputBox = document.getElementById("inputBox");
+
+        if (uploadBox) uploadBox.remove();
+        if (uploadBubble) uploadBubble.remove();
+        if (inputBox) inputBox.remove();
+
+        // Upgraded profile picture interface matching our theme:
+        // Container is now transparent so the content appears floating.
+        const profileContainer = document.createElement("div");
+        profileContainer.style.display = "flex";
+        profileContainer.style.flexDirection = "column";
+        profileContainer.style.alignItems = "center";
+        profileContainer.style.justifyContent = "center";
+        profileContainer.style.marginTop = "40px";
+        profileContainer.style.padding = "30px";
+        profileContainer.style.borderRadius = "20px";
+        profileContainer.style.background = "transparent";
+        profileContainer.style.color = "#fff";
+        // Remove box shadow for a lighter floating effect (or adjust as desired)
+        profileContainer.style.boxShadow = "none";
+
+        // "You're all set" text above the profile picture
+        const greeting = document.createElement("div");
+        greeting.className = "greeting";
+        greeting.innerText = `You're all set, ${userData.name || "intern"}!`;
+
+        // Create a container for the profile picture with a pulsing ring
+        const picContainer = document.createElement("div");
+        picContainer.style.width = "170px";
+        picContainer.style.height = "170px";
+        picContainer.style.borderRadius = "50%";
+        picContainer.style.display = "flex";
+        picContainer.style.alignItems = "center";
+        picContainer.style.justifyContent = "center";
+        picContainer.style.animation = "pulseRing 2s infinite";
+        picContainer.style.border = "3px solid rgba(0,191,255,0.7)";
+
+        const img = document.createElement("img");
+        img.src = userData.profilePic;
+        img.alt = "Profile Picture";
+        img.style.width = "160px";
+        img.style.height = "160px";
+        img.style.borderRadius = "50%";
+        img.style.objectFit = "cover";
+        img.style.border = "4px solid #00bfff";
+        picContainer.appendChild(img);
+
+        // "Match Me" button below the profile picture as a solid button
+        const matchButton = document.createElement("button");
+        matchButton.innerText = "Match Me";
+        matchButton.style.marginTop = "20px";
+        matchButton.style.width = "100px";
+        matchButton.style.height = "100px";
+        matchButton.style.fontSize = "18px";
+        matchButton.style.borderRadius = "50%";
+        matchButton.style.border = "none";
+        matchButton.style.backgroundColor = "#42a5f5";
+        matchButton.style.color = "white";
+        matchButton.style.cursor = "pointer";
+        matchButton.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+        matchButton.style.display = "flex";
+        matchButton.style.alignItems = "center";
+        matchButton.style.justifyContent = "center";
+        // When pressed, navigate to 3matches.html
+        matchButton.onclick = () => {
+          window.location.href = '3matches.html';
+        };
+
+        // Order: greeting, profile picture, Match Me button
+        profileContainer.appendChild(greeting);
+        profileContainer.appendChild(picContainer);
+        profileContainer.appendChild(matchButton);
+        chat.appendChild(profileContainer);
+        chat.scrollTop = chat.scrollHeight;
+
+        console.log("Final profile data:", userData);
+      }
+    }
+  </script>
+</body>
+</html>

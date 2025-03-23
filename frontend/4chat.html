@@ -17,9 +17,9 @@
       color: #e0e0e0;
       line-height: 1.4;
     }
-    a {
-      text-decoration: none;
-      color: inherit;
+    .container {
+      max-width: 600px;
+      margin: auto;
     }
 
     /* Header styling */
@@ -51,7 +51,9 @@
       padding: 15px 20px;
       border-bottom: 1px solid #333;
       cursor: pointer;
-      transition: background 0.3s;
+    }
+    .button-group button:hover {
+      background-color: #009acd;
     }
     .chat-item:last-child {
       border-bottom: none;
@@ -89,6 +91,15 @@
     /* Chat info: name + preview */
     .chat-info {
       flex: 1;
+      color: #000; /* Black text */
+    }
+    .match-toggle {
+      background: none;
+      border: 2px solid #000; /* Black border */
+      border-radius: 50%;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
