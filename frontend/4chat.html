@@ -120,7 +120,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      /* Ensure clicks on the preview bubble are passed to the parent */
       pointer-events: none;
     }
     /* Conversation panel */
@@ -203,7 +202,6 @@
   </style>
 </head>
 <body>
-  <!-- Common header -->
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
@@ -227,7 +225,7 @@
   
   <div class="main-container">
     <div class="chat-list">
-      <!-- Chat items -->
+      <!-- Example chat items -->
       <div class="chat-item" data-chat="chat1">
         <span class="check-icon icon-left">✔</span>
         <div class="profile-picture">J</div>
@@ -249,7 +247,7 @@
         <div class="profile-picture">3</div>
         <div class="chat-info">
           <div class="chat-name">Summer in NY</div>
-          <div class="chat-preview">We have 2 spots left and more details that might be really long...</div>
+          <div class="chat-preview">We have 2 spots left and details...</div>
         </div>
       </div>
       <div class="chat-item" data-chat="chat4">
@@ -260,7 +258,39 @@
           <div class="chat-preview">Amy wants to match with you</div>
         </div>
       </div>
-      <!-- More chat items as needed -->
+      <div class="chat-item" data-chat="chat5">
+        <span class="check-icon icon-left">✔</span>
+        <div class="profile-picture">M</div>
+        <div class="chat-info">
+          <div class="chat-name">Mark T.</div>
+          <div class="chat-preview">Looking forward to rooming together!</div>
+        </div>
+      </div>
+      <div class="chat-item" data-chat="chat6">
+        <span class="house-icon icon-left">🏠</span>
+        <div class="profile-picture">L</div>
+        <div class="chat-info">
+          <div class="chat-name">Lauren G.</div>
+          <div class="chat-preview">I can give you a tour next week.</div>
+        </div>
+      </div>
+      <!-- Additional examples -->
+      <div class="chat-item" data-chat="chat7">
+        <span class="plus-icon icon-left">➕</span>
+        <div class="profile-picture">C</div>
+        <div class="chat-info">
+          <div class="chat-name">Chris W.</div>
+          <div class="chat-preview">Are you still looking for a place?</div>
+        </div>
+      </div>
+      <div class="chat-item" data-chat="chat8">
+        <span class="group-icon icon-left">👥</span>
+        <div class="profile-picture">4</div>
+        <div class="chat-info">
+          <div class="chat-name">Google Intern Roommates</div>
+          <div class="chat-preview">We need one more person!</div>
+        </div>
+      </div>
     </div>
     <div class="chat-conversation">
       <div class="conversation-header">Select a chat</div>
@@ -273,14 +303,16 @@
       </div>
     </div>
   </div>
+  
   <script>
-    // Dummy chat data for simulation
+    // Dummy chat data with more examples and varied conversation lengths
     const chatData = {
       chat1: {
         chatName: "John D.",
         messages: [
           { sender: "them", text: "Hey, are you free tomorrow?", profile: "J" },
-          { sender: "me", text: "Yes, I'm free. How about meeting at 5?", profile: "Me" }
+          { sender: "me", text: "Yes, I'm free. How about meeting at 5?", profile: "Me" },
+          { sender: "them", text: "Sounds good! Let's meet at the cafe.", profile: "J" }
         ]
       },
       chat2: {
@@ -293,16 +325,54 @@
       chat3: {
         chatName: "Summer in NY",
         messages: [
-          { sender: "them", text: "We have 2 spots left!", profile: "S" }
+          { sender: "them", text: "We have 2 spots left!", profile: "S" },
+          { sender: "them", text: "It's a spacious loft near the park.", profile: "S" },
+          { sender: "me", text: "That sounds interesting. Can you send more details?", profile: "Me" },
+          { sender: "them", text: "Sure, I'll forward you some pictures and the lease details soon.", profile: "S" }
         ]
       },
       chat4: {
         chatName: "Amy",
         messages: [
-          { sender: "them", text: "Amy wants to match with you", profile: "A" }
+          { sender: "them", text: "Amy wants to match with you", profile: "A" },
+          { sender: "me", text: "Hi Amy! I'd love to get to know you more.", profile: "Me" }
+        ]
+      },
+      chat5: {
+        chatName: "Mark T.",
+        messages: [
+          { sender: "them", text: "Looking forward to rooming together!", profile: "M" }
+        ]
+      },
+      chat6: {
+        chatName: "Lauren G.",
+        messages: [
+          { sender: "them", text: "I can give you a tour next week.", profile: "L" },
+          { sender: "me", text: "Great, let’s schedule a time.", profile: "Me" },
+          { sender: "them", text: "How about Tuesday at 3 PM?", profile: "L" },
+          { sender: "me", text: "Tuesday works for me. See you then!", profile: "Me" }
+        ]
+      },
+      chat7: {
+        chatName: "Chris W.",
+        messages: [
+          { sender: "them", text: "Are you still looking for a place?", profile: "C" },
+          { sender: "me", text: "Yes, I'm still on the hunt. Got any leads?", profile: "Me" },
+          { sender: "them", text: "I might have a friend who's renting out a room. Let me check.", profile: "C" },
+          { sender: "them", text: "I'll get back to you soon.", profile: "C" }
+        ]
+      },
+      chat8: {
+        chatName: "Google Intern Roommates",
+        messages: [
+          { sender: "them", text: "We need one more person!", profile: "G" },
+          { sender: "me", text: "I might be interested. What's the rent?", profile: "Me" },
+          { sender: "them", text: "Approximately $900 per month, utilities extra.", profile: "G" },
+          { sender: "me", text: "That sounds reasonable. Can I see the place?", profile: "Me" },
+          { sender: "them", text: "Sure, we'll set up a tour later this week.", profile: "G" }
         ]
       }
-      // Additional chat data as needed...
+      // You can add more chat examples if desired
     };
 
     const chatItems = document.querySelectorAll('.chat-item');
@@ -364,7 +434,6 @@
       const text = messageInput.value.trim();
       if(text !== "" && activeChatId) {
         appendMessage("me", text, "Me");
-        // Update the dummy data as well
         if(chatData[activeChatId]) {
           chatData[activeChatId].messages.push({ sender: "me", text: text, profile: "Me" });
         }
