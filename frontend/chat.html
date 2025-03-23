@@ -35,7 +35,7 @@
 
     /* Main container for chat list */
     .chat-container {
-      max-width: 600px;
+      max-width: 800px; /* Increased width for larger chat container */
       margin: 30px auto;
       background: #242424;
       border-radius: 8px;
@@ -72,10 +72,11 @@
       justify-content: center;
       margin-right: 15px;
       font-weight: bold;
+      font-size: 16px;
     }
     /* For group chats, you can differentiate color or text as needed */
     .group-badge {
-      background: #009acd; /* A slightly different shade of blue */
+      background: #009acd; /* Slightly different shade of blue */
     }
 
     /* Chat info: name + preview */
@@ -95,7 +96,7 @@
     .chat-preview {
       font-size: 14px;
       color: #ccc;
-      max-width: 220px;
+      max-width: 300px;
       text-align: right;
       white-space: nowrap;
       overflow: hidden;
@@ -134,11 +135,10 @@
   </header>
 
   <div class="chat-container">
+
     <!-- Single-person chat, matched (check icon) -->
     <div class="chat-item">
-      <div class="profile-picture">
-        <span>J</span>
-      </div>
+      <div class="profile-picture">J</div>
       <div class="chat-info">
         <div class="chat-name">
           John D.
@@ -150,9 +150,7 @@
 
     <!-- Single-person chat, homeowner (house icon) -->
     <div class="chat-item">
-      <div class="profile-picture">
-        <span>J</span>
-      </div>
+      <div class="profile-picture">J</div>
       <div class="chat-info">
         <div class="chat-name">
           Jim R.
@@ -162,11 +160,9 @@
       </div>
     </div>
 
-    <!-- Group chat (multiple people) -->
+    <!-- Group chat (3 people) -->
     <div class="chat-item">
-      <div class="group-badge">
-        <span>3</span>
-      </div>
+      <div class="group-badge">3</div>
       <div class="chat-info">
         <div class="chat-name">
           Summer in NY
@@ -177,9 +173,7 @@
 
     <!-- Single-person chat, trying to match (plus icon) -->
     <div class="chat-item">
-      <div class="profile-picture">
-        <span>A</span>
-      </div>
+      <div class="profile-picture">A</div>
       <div class="chat-info">
         <div class="chat-name">
           Amy
@@ -189,11 +183,9 @@
       </div>
     </div>
 
-    <!-- Another group chat (multiple people) -->
+    <!-- Group chat (4 people) -->
     <div class="chat-item">
-      <div class="group-badge">
-        <span>4</span>
-      </div>
+      <div class="group-badge">4</div>
       <div class="chat-info">
         <div class="chat-name">
           Google Intern Roommates
@@ -201,6 +193,65 @@
         <div class="chat-preview">We need one more person!</div>
       </div>
     </div>
+
+    <!-- Single-person chat, plus icon -->
+    <div class="chat-item">
+      <div class="profile-picture">B</div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Bella S.
+          <span class="plus-icon">➕</span>
+        </div>
+        <div class="chat-preview">Hey! Interested in splitting a place?</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, matched (check icon) -->
+    <div class="chat-item">
+      <div class="profile-picture">M</div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Mark T.
+          <span class="check-icon">✔</span>
+        </div>
+        <div class="chat-preview">Looking forward to rooming together!</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <div class="profile-picture">L</div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Lauren G.
+          <span class="house-icon">🏠</span>
+        </div>
+        <div class="chat-preview">I can give you a tour next week.</div>
+      </div>
+    </div>
+
+    <!-- Group chat (3 people) -->
+    <div class="chat-item">
+      <div class="group-badge">3</div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Room 202
+        </div>
+        <div class="chat-preview">We just got a new roommate!</div>
+      </div>
+    </div>
+
+    <!-- Group chat (5 people) -->
+    <div class="chat-item">
+      <div class="group-badge">5</div>
+      <div class="chat-info">
+        <div class="chat-name">
+          The Big Apple Crew
+        </div>
+        <div class="chat-preview">When are you all moving in?</div>
+      </div>
+    </div>
+
   </div>
 </body>
 </html>
