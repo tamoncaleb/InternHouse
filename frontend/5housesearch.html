@@ -15,7 +15,6 @@
       background-color: #121212;
       font-family: Arial, sans-serif;
       color: #e0e0e0;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -63,11 +62,10 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
       border-bottom: 2px solid #333;
     }
     .filter-bar label {
-      margin-right: 8px;
       font-weight: bold;
       color: #ccc;
     }
@@ -76,15 +74,16 @@
       background-color: #333;
       border: 1px solid #444;
       color: #fff;
-      padding: 5px 8px;
+      padding: 8px;
       border-radius: 4px;
+      min-width: 100px;
     }
     .filter-bar button {
       background-color: #00bfff;
       color: #fff;
       border: none;
       border-radius: 4px;
-      padding: 8px 16px;
+      padding: 10px 20px;
       cursor: pointer;
       font-weight: bold;
     }
@@ -101,7 +100,7 @@
     .slider-wrapper {
       position: relative;
       width: 800px;
-      height: 510px; /* Height to show exactly 3 cards (each approx. 170px tall) */
+      height: 510px; /* Height to show exactly 3 cards */
       margin-top: 10px;
       overflow: hidden;
       border: 2px solid #333;
@@ -118,11 +117,16 @@
       color: #fff;
       border: 1px solid #444;
       border-radius: 8px;
-      margin: 10px;
+      margin: 20px 0; /* Increased vertical spacing between cards */
       padding: 16px;
       height: 150px;
       display: flex;
+      flex-direction: column;
       position: relative;
+    }
+    .property-card > .card-top {
+      display: flex;
+      flex: 1;
     }
     .icon {
       width: 80px;
@@ -141,26 +145,49 @@
       margin-bottom: 4px;
       font-size: 14px;
     }
+    /* Rating styling */
+    .rating {
+      margin-top: 4px;
+      font-size: 16px;
+      color: gold;
+    }
+    /* "Matches liked" area: always 4 icons */
     .liked-section {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
+      margin-top: 4px;
+      margin-bottom: 20px; /* Extra bottom margin added */
+      font-size: 18px;
       display: flex;
       align-items: center;
-      font-size: 14px;
     }
     .liked-section p {
       margin-right: 8px;
+      font-size: 14px;
+    }
+    .liked-check, .liked-x {
+      margin-right: 5px;
     }
     .liked-check {
-      font-size: 18px;
       color: green;
-      margin-right: 5px;
     }
     .liked-x {
-      font-size: 18px;
       color: gray;
-      margin-right: 5px;
+    }
+    /* Check Off button placed at bottom right of each card */
+    .check-off-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding: 6px 10px;
+      background-color: #00bfff;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1;
+    }
+    .check-off-btn:hover {
+      background-color: #009acd;
     }
     .arrow-button {
       position: absolute;
@@ -193,7 +220,6 @@
   </style>
 </head>
 <body>
-  <!-- Common header -->
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
@@ -221,23 +247,35 @@
 
   <!-- Filter bar -->
   <div class="filter-bar">
-    <label for="minPrice">Min Price:</label>
-    <input type="number" id="minPrice" placeholder="0" />
-    <label for="maxPrice">Max Price:</label>
-    <input type="number" id="maxPrice" placeholder="9999" />
-    <label for="capacity">Capacity:</label>
-    <input type="number" id="capacity" placeholder="3" />
-    <label for="currentLiving">Currently Living:</label>
-    <input type="number" id="currentLiving" placeholder="2" />
-    <label for="propertyType">Type:</label>
-    <select id="propertyType">
-      <option value="">All</option>
-      <option value="house">House</option>
-      <option value="apartment">Apartment</option>
-      <option value="condo">Condo</option>
-      <option value="townhome">Townhome</option>
-    </select>
-    <button onclick="applyFilters()">Search</button>
+    <div>
+      <label for="minPrice">Min Price:</label>
+      <input type="number" id="minPrice" placeholder="0" />
+    </div>
+    <div>
+      <label for="maxPrice">Max Price:</label>
+      <input type="number" id="maxPrice" placeholder="9999" />
+    </div>
+    <div>
+      <label for="capacity">Capacity:</label>
+      <input type="number" id="capacity" placeholder="3" />
+    </div>
+    <div>
+      <label for="currentLiving">Matches Liked</label>
+      <input type="number" id="currentLiving" placeholder="2" />
+    </div>
+    <div>
+      <label for="propertyType">Type:</label>
+      <select id="propertyType">
+        <option value="">All</option>
+        <option value="house">House</option>
+        <option value="apartment">Apartment</option>
+        <option value="condo">Condo</option>
+        <option value="townhome">Townhome</option>
+      </select>
+    </div>
+    <div>
+      <button onclick="applyFilters()">Search</button>
+    </div>
   </div>
 
   <div class="profile-note">
@@ -249,186 +287,239 @@
     <button class="arrow-button arrow-up" onclick="slidePage(-1)">&#9650;</button>
     <div class="slider" id="slider">
       <!-- Property Card 1 -->
-      <div class="property-card" data-price="3000" data-capacity="3" data-currentlyliving="2" data-type="house">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s" alt="House Icon" class="icon" />
-        <div class="property-info">
-          <h2>$3000/mo ($1000 pp)</h2>
-          <p><strong>Address:</strong> 1234 Maple Street</p>
-          <p><strong>Size:</strong> 3 bed, 2 bath</p>
-          <p><strong>Location:</strong> Near downtown</p>
+      <div class="property-card" data-price="3000" data-capacity="4" data-currentlyliving="2" data-type="house" data-rating="4">
+        <div class="card-top">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2PNn49lWo_jJ2jfpVnitx_c99XccGZsUcyA&s" alt="House Icon" class="icon" />
+          <div class="property-info">
+            <h2>$3000/mo ($1000 pp)</h2>
+            <p><strong>Address:</strong> 1234 Maple Street</p>
+            <p><strong>Size:</strong> 4 bed, 2 bath</p>
+            <p><strong>Location:</strong> Near downtown</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>2/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 2 -->
-      <div class="property-card" data-price="2500" data-capacity="4" data-currentlyliving="3" data-type="apartment">
-        <img src="https://via.placeholder.com/80?text=APT" alt="Apartment Icon" class="icon" />
-        <div class="property-info">
-          <h2>$2500/mo ($625 pp)</h2>
-          <p><strong>Address:</strong> 5678 Oak Avenue</p>
-          <p><strong>Size:</strong> 4 bed, 3 bath</p>
-          <p><strong>Location:</strong> Downtown</p>
+      <div class="property-card" data-price="2500" data-capacity="4" data-currentlyliving="3" data-type="apartment" data-rating="3">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=APT" alt="Apartment Icon" class="icon" />
+          <div class="property-info">
+            <h2>$2500/mo ($625 pp)</h2>
+            <p><strong>Address:</strong> 5678 Oak Avenue</p>
+            <p><strong>Size:</strong> 4 bed, 3 bath</p>
+            <p><strong>Location:</strong> Downtown</p>
+            <p class="rating"><strong>Rating:</strong> ★★★☆☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>3/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 3 -->
-      <div class="property-card" data-price="3200" data-capacity="3" data-currentlyliving="3" data-type="condo">
-        <img src="https://via.placeholder.com/80?text=CONDO" alt="Condo Icon" class="icon" />
-        <div class="property-info">
-          <h2>$3200/mo ($1067 pp)</h2>
-          <p><strong>Address:</strong> 9012 Pine Road</p>
-          <p><strong>Size:</strong> 3 bed, 2 bath</p>
-          <p><strong>Location:</strong> Uptown</p>
+      <div class="property-card" data-price="3200" data-capacity="4" data-currentlyliving="3" data-type="condo" data-rating="5">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=CONDO" alt="Condo Icon" class="icon" />
+          <div class="property-info">
+            <h2>$3200/mo ($1067 pp)</h2>
+            <p><strong>Address:</strong> 9012 Pine Road</p>
+            <p><strong>Size:</strong> 4 bed, 2 bath</p>
+            <p><strong>Location:</strong> Uptown</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★★</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>4/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 4 -->
-      <div class="property-card" data-price="2800" data-capacity="2" data-currentlyliving="1" data-type="townhome">
-        <img src="https://via.placeholder.com/80?text=TH" alt="Townhome Icon" class="icon" />
-        <div class="property-info">
-          <h2>$2800/mo ($1400 pp)</h2>
-          <p><strong>Address:</strong> 3456 Cedar Lane</p>
-          <p><strong>Size:</strong> 2 bed, 2 bath</p>
-          <p><strong>Location:</strong> Suburban</p>
+      <div class="property-card" data-price="2800" data-capacity="4" data-currentlyliving="1" data-type="townhome" data-rating="4">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=TH" alt="Townhome Icon" class="icon" />
+          <div class="property-info">
+            <h2>$2800/mo ($1400 pp)</h2>
+            <p><strong>Address:</strong> 3456 Cedar Lane</p>
+            <p><strong>Size:</strong> 4 bed, 2 bath</p>
+            <p><strong>Location:</strong> Suburban</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>1/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-          <span class="liked-x">✘</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 5 -->
-      <div class="property-card" data-price="3500" data-capacity="4" data-currentlyliving="3" data-type="house">
-        <img src="https://via.placeholder.com/80?text=House" alt="House Icon" class="icon" />
-        <div class="property-info">
-          <h2>$3500/mo ($875 pp)</h2>
-          <p><strong>Address:</strong> 7890 Birch Boulevard</p>
-          <p><strong>Size:</strong> 4 bed, 3 bath</p>
-          <p><strong>Location:</strong> West End</p>
+      <div class="property-card" data-price="3500" data-capacity="4" data-currentlyliving="1" data-type="house" data-rating="4">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=House" alt="House Icon" class="icon" />
+          <div class="property-info">
+            <h2>$3500/mo ($875 pp)</h2>
+            <p><strong>Address:</strong> 7890 Birch Boulevard</p>
+            <p><strong>Size:</strong> 4 bed, 3 bath</p>
+            <p><strong>Location:</strong> West End</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>3/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 6 -->
-      <div class="property-card" data-price="2200" data-capacity="2" data-currentlyliving="2" data-type="apartment">
-        <img src="https://via.placeholder.com/80?text=APT" alt="Apartment Icon" class="icon" />
-        <div class="property-info">
-          <h2>$2200/mo ($1100 pp)</h2>
-          <p><strong>Address:</strong> 1357 Elm Street</p>
-          <p><strong>Size:</strong> 2 bed, 1 bath</p>
-          <p><strong>Location:</strong> Midtown</p>
+      <div class="property-card" data-price="2200" data-capacity="4" data-currentlyliving="2" data-type="apartment" data-rating="3">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=APT" alt="Apartment Icon" class="icon" />
+          <div class="property-info">
+            <h2>$2200/mo ($1100 pp)</h2>
+            <p><strong>Address:</strong> 1357 Elm Street</p>
+            <p><strong>Size:</strong> 4 bed, 1 bath</p>
+            <p><strong>Location:</strong> Midtown</p>
+            <p class="rating"><strong>Rating:</strong> ★★★☆☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>2/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 7 -->
-      <div class="property-card" data-price="4000" data-capacity="5" data-currentlyliving="4" data-type="condo">
-        <img src="https://via.placeholder.com/80?text=CONDO" alt="Condo Icon" class="icon" />
-        <div class="property-info">
-          <h2>$4000/mo ($800 pp)</h2>
-          <p><strong>Address:</strong> 2468 Spruce Drive</p>
-          <p><strong>Size:</strong> 5 bed, 3 bath</p>
-          <p><strong>Location:</strong> East Side</p>
+      <div class="property-card" data-price="4000" data-capacity="4" data-currentlyliving="3" data-type="condo" data-rating="5">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=CONDO" alt="Condo Icon" class="icon" />
+          <div class="property-info">
+            <h2>$4000/mo ($800 pp)</h2>
+            <p><strong>Address:</strong> 2468 Spruce Drive</p>
+            <p><strong>Size:</strong> 4 bed, 3 bath</p>
+            <p><strong>Location:</strong> East Side</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★★</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>4/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 8 -->
-      <div class="property-card" data-price="2700" data-capacity="3" data-currentlyliving="2" data-type="townhome">
-        <img src="https://via.placeholder.com/80?text=Townhome" alt="Townhome Icon" class="icon" />
-        <div class="property-info">
-          <h2>$2700/mo ($900 pp)</h2>
-          <p><strong>Address:</strong> 1122 Willow Way</p>
-          <p><strong>Size:</strong> 3 bed, 2 bath</p>
-          <p><strong>Location:</strong> Lakeside</p>
+      <div class="property-card" data-price="2700" data-capacity="4" data-currentlyliving="2" data-type="townhome" data-rating="4">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=Townhome" alt="Townhome Icon" class="icon" />
+          <div class="property-info">
+            <h2>$2700/mo ($900 pp)</h2>
+            <p><strong>Address:</strong> 1122 Willow Way</p>
+            <p><strong>Size:</strong> 4 bed, 2 bath</p>
+            <p><strong>Location:</strong> Lakeside</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>2/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
       <!-- Property Card 9 -->
-      <div class="property-card" data-price="4500" data-capacity="5" data-currentlyliving="4" data-type="house">
-        <img src="https://via.placeholder.com/80?text=House" alt="House Icon" class="icon" />
-        <div class="property-info">
-          <h2>$4500/mo ($900 pp)</h2>
-          <p><strong>Address:</strong> 3344 Aspen Court</p>
-          <p><strong>Size:</strong> 5 bed, 4 bath</p>
-          <p><strong>Location:</strong> Luxury Estates</p>
+      <div class="property-card" data-price="4500" data-capacity="4" data-currentlyliving="3" data-type="house" data-rating="4">
+        <div class="card-top">
+          <img src="https://via.placeholder.com/80?text=House" alt="House Icon" class="icon" />
+          <div class="property-info">
+            <h2>$4500/mo ($900 pp)</h2>
+            <p><strong>Address:</strong> 3344 Aspen Court</p>
+            <p><strong>Size:</strong> 4 bed, 4 bath</p>
+            <p><strong>Location:</strong> Luxury Estates</p>
+            <p class="rating"><strong>Rating:</strong> ★★★★☆</p>
+          </div>
         </div>
-        <div class="liked-section">
-          <p>3/4 liked</p>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-check">✔️</span>
-          <span class="liked-x">✘</span>
-        </div>
+        <div class="liked-section"></div>
+        <button class="check-off-btn" onclick="checkOff(this)">Like</button>
       </div>
     </div>
     <button class="arrow-button arrow-down" onclick="slidePage(1)">&#9660;</button>
   </div>
 
   <script>
-    // Dummy filtering function (replace with your actual filtering logic)
+    // Filtering functionality
     function applyFilters() {
-      alert("Filters applied (dummy function).");
+      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+      const capacity = parseFloat(document.getElementById('capacity').value) || 0;
+      const currentLiving = parseFloat(document.getElementById('currentLiving').value) || Infinity;
+      const propertyType = document.getElementById('propertyType').value;
+      
+      const cards = document.querySelectorAll('.property-card');
+      cards.forEach(card => {
+        const price = parseFloat(card.getAttribute('data-price')) || 0;
+        const cardCapacity = parseFloat(card.getAttribute('data-capacity')) || 0;
+        const cardCurrent = parseFloat(card.getAttribute('data-currentlyliving')) || 0;
+        const type = card.getAttribute('data-type');
+        
+        let match = true;
+        if (price < minPrice || price > maxPrice) match = false;
+        if (cardCapacity < capacity) match = false;
+        if (cardCurrent > currentLiving) match = false;
+        if (propertyType !== "" && type !== propertyType) match = false;
+        
+        card.style.display = match ? "flex" : "none";
+      });
+      // Reset slider position
+      currentPage = 0;
+      slider.style.transform = 'translateY(0px)';
+      updatePropertyCards();
     }
     
-    // Set page variables: Each page shows 3 property cards
+    // Slider functionality
     const cardsPerPage = 3;
     let currentPage = 0;
     const slider = document.getElementById('slider');
-    // Each card's outer height: card height (150px) + margin (10px top and bottom = 20px) = ~170px
-    const pageHeight = cardsPerPage * 170; // 510px
-    
+    const pageHeight = cardsPerPage * 170; // 3 cards at ~170px each
+
     function slidePage(direction) {
-      // direction: -1 for up, 1 for down
-      const totalCards = slider.children.length;
+      const visibleCards = Array.from(slider.children).filter(card => getComputedStyle(card).display !== "none");
+      const totalCards = visibleCards.length;
       const totalPages = Math.ceil(totalCards / cardsPerPage);
-      
       currentPage += direction;
       if(currentPage < 0) currentPage = 0;
       if(currentPage >= totalPages) currentPage = totalPages - 1;
-      
       slider.style.transform = 'translateY(' + (-currentPage * pageHeight) + 'px)';
     }
+    
+    // Update property cards: generate exactly 4 icons (checkmarks and X's) for each card and add "Currently Living:" info.
+    // Change text to "matches liked".
+    function updatePropertyCards() {
+      const totalIcons = 4;
+      const cards = document.querySelectorAll('.property-card');
+      cards.forEach(card => {
+        if(getComputedStyle(card).display === "none") return;
+        const capacity = parseInt(card.getAttribute('data-capacity')) || 0;
+        const currentLiving = parseInt(card.getAttribute('data-currentlyliving')) || 0;
+        let available = totalIcons - currentLiving;
+        if (available < 0) available = 0;
+        let iconsHTML = `<p>${available}/${totalIcons} matches liked: </p>`;
+        for(let i = 0; i < available; i++){
+          iconsHTML += '<span class="liked-check">✔️</span>';
+        }
+        for(let i = 0; i < currentLiving; i++){
+          iconsHTML += '<span class="liked-x">✘</span>';
+        }
+        const likedSection = card.querySelector('.liked-section');
+        likedSection.innerHTML = iconsHTML;
+        
+        // Add or update "Currently Living:" info
+        const propertyInfo = card.querySelector('.property-info');
+        let currentLivingElem = card.querySelector('.current-living');
+        if (!currentLivingElem) {
+          currentLivingElem = document.createElement('p');
+          currentLivingElem.classList.add('current-living');
+          propertyInfo.appendChild(currentLivingElem);
+        }
+        currentLivingElem.innerHTML = `<strong>Currently Living:</strong> ${currentLiving}`;
+      });
+    }
+    
+    // Check Off functionality: When "Check Off" is clicked, reduce the current living count by 1 if > 0.
+    function checkOff(btn) {
+      const card = btn.closest('.property-card');
+      let currentLiving = parseInt(card.getAttribute('data-currentlyliving')) || 0;
+      if (currentLiving > 0) {
+        currentLiving--;
+        card.setAttribute('data-currentlyliving', currentLiving);
+        updatePropertyCards();
+      } else {
+        alert("No occupied matches to check off.");
+      }
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      updatePropertyCards();
+    });
   </script>
 </body>
 </html>
