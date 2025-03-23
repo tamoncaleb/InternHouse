@@ -446,12 +446,12 @@
         matchButton.style.display = "flex";
         matchButton.style.alignItems = "center";
         matchButton.style.justifyContent = "center";
+        // When pressed, navigate to 3matches.html
         matchButton.onclick = () => {
-          alert("Matching you with fellow interns soon!");
-          // Redirect or show matches here later
+          window.location.href = '3matches.html';
         };
 
-        // Order: "You're all set" text on top, then profile picture with pulsing ring, then Match Me button
+        // Order: greeting, profile picture, Match Me button
         profileContainer.appendChild(greeting);
         profileContainer.appendChild(picContainer);
         profileContainer.appendChild(matchButton);
