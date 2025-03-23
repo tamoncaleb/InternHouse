@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternHouse - Page 1</title>
+  <style>
+    /* General styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    
+    /* Background video styling */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    
+    /* Centered container for the logo and button */
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 1;
+    }
+    
+    .heading {
+      font-size: 36px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+    
+    .subtitle {
+      color: #d3d3d3;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    
+    /* Circular button */
+    .party-button {
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+    
+    .party-button:hover {
+      background-color: #009acd;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="vecteezy_2d-night-city-loop-animation-retro-style-4k-perfect-for_35319162.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  
+  <!-- Centered content -->
+  <div class="center">
+    <h1 class="heading">InternHouse</h1>
+    <p class="subtitle">Find your perfect shared space</p>
+    <button class="party-button" onclick="window.location.href='page2.html'">Lets go!</button>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var video = document.getElementById("bg-video");
+      video.playbackRate = 0.5; // Set video to play at half speed
+    });
+  </script>
+</body>
+</html>
