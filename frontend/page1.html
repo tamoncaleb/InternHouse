@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternHouse - Page 1</title>
+  <style>
+    /* General styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      background-color: #f0f8ff; /* Light blue background */
+    }
+
+    /* Background image */
+    .background {
+      background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80'); /* Replace with your houses image */
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Overlay to darken the background image */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Black overlay with 50% opacity */
+    }
+
+    /* Center the button */
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    /* Circular button */
+    .party-button {
+      background-color: #00bfff; /* Light blue */
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    .party-button:hover {
+      background-color: #009acd; /* Darker light blue */
+    }
+
+    /* Heading text */
+    .heading {
+      color: white;
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Optional: Add a subtitle */
+    .subtitle {
+      color: #d3d3d3; /* Light grey */
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="overlay"></div> <!-- Dark overlay for better contrast -->
+    <div class="center">
+      <h1 class="heading">Welcome to InternHouse</h1>
+      <p class="subtitle">Find your perfect shared space</p>
+      <button class="party-button" onclick="window.location.href='page2.html'">Party Up</button>
+    </div>
+  </div>
+</body>
+</html>
