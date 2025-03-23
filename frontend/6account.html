@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account - InternHouse</title>
+  <style>
+    /* Global resets */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.5;
+      padding-top: 70px; /* space for header */
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Common header (same as other pages) */
+    header {
+      background-color: #000;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+    }
+    header a.logo-link {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      height: 60px;
+    }
+    .nav-links {
+      margin-left: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      color: #00bfff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+    /* Account page container */
+    .account-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    /* Big profile picture styling */
+    .profile-picture-large {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #00bfff;
+      display: block;
+      margin: 20px auto;
+    }
+    /* Profile details styling */
+    .profile-details {
+      background-color: #1c1c1c;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      margin-top: 20px;
+    }
+    .profile-details h2 {
+      color: #00bfff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .profile-field {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .profile-field strong {
+      color: #00bfff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Common header -->
+  <header>
+    <a href="2profile.html" class="logo-link">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
+          I
+        </text>
+        <g transform="translate(50,20)">
+          <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
+          <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
+          <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
+          <circle cx="41" cy="68" r="2" fill="#fff"/>
+        </g>
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
+          H
+        </text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="3matches.html">Matches</a>
+      <a href="4chat.html">Chat</a>
+      <a href="5housesearch.html">Properties</a>
+      <a href="6account.html">Account</a>
+    </div>
+  </header>
+  
+  <div class="account-container">
+    <!-- Big Profile Picture; ID used for JavaScript injection -->
+    <img id="profilePicture" src="your-profile-picture.jpg" alt="Profile Picture" class="profile-picture-large">
+    
+    <!-- Profile Details (sample data from 2profile.html questions) -->
+    <div class="profile-details">
+      <h2>Your Account Details</h2>
+      <div class="profile-field"><strong>Name:</strong> John Doe</div>
+      <div class="profile-field"><strong>Age:</strong> 22</div>
+      <div class="profile-field"><strong>Favorite Hobby:</strong> Photography</div>
+      <div class="profile-field"><strong>Occupation:</strong> Computer Science Student</div>
+      <div class="profile-field"><strong>Field of Study:</strong> Computer Science</div>
+      <div class="profile-field"><strong>School:</strong> Stanford University</div>
+      <div class="profile-field"><strong>Company (Internship):</strong> Google</div>
+      <div class="profile-field"><strong>Internship Location:</strong> Mountain View, CA</div>
+      <div class="profile-field"><strong>Preferred Housing Budget:</strong> $800 - $1200</div>
+      <div class="profile-field"><strong>Housing Preferences:</strong> Apartment near campus</div>
+    </div>
+  </div>
+  
+  <script>
+    // When the page loads, retrieve the profile picture from localStorage (saved by 2profile.html)
+    document.addEventListener("DOMContentLoaded", function() {
+      const profileImg = document.getElementById("profilePicture");
+      const storedPic = localStorage.getItem("profilePic"); // key where 2profile.html stored the picture
+      if(storedPic) {
+        profileImg.src = storedPic;
+      }
+    });
+  </script>
+</body>
+</html>
