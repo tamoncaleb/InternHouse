@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Page 5 - Property Details</title>
+  <style>
+    /* Reset some default margins/padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      padding: 40px;
+    }
+
+    /* A container to mimic the whiteboard rectangle */
+    .property-card {
+      position: relative;  /* allows absolute positioning inside */
+      max-width: 800px;
+      margin: 0 auto;      /* center the card on the page */
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* House icon area */
+    .house-icon {
+      width: 100px;
+      height: 100px;
+      float: left;         /* let text flow around the icon */
+      margin-right: 20px;
+    }
+
+    /* Title and property info */
+    .property-info h2 {
+      margin-bottom: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .property-info p {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    /* “2/3 liked this property” section in the bottom-right */
+    .liked-section {
+      position: absolute; 
+      bottom: 20px;  
+      right: 20px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .liked-section p {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="property-card">
+    <!-- House icon placeholder (replace with your own image if needed) -->
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/69/69524.png"
+      alt="House Icon"
+      class="house-icon"
+    />
+
+    <div class="property-info">
+      <h2>Price: $3000 per month ($1000 per person)</h2>
+      <p><strong>Address:</strong> 1234 Maple Street, City, State</p>
+      <p><strong>Size:</strong> 3 bed, 2 bath, 1,200 sq ft</p>
+      <p><strong>Location:</strong> Close to downtown &amp; public transit</p>
+      <p><strong>Amenities:</strong> Parking, Laundry, Gym, Wi-Fi</p>
+    </div>
+
+    <!-- Bottom-right “liked” info -->
+    <div class="liked-section">
+      <p>2/3 liked this property</p>
+      <!-- Example emojis, adjust as desired -->
+      <span style="font-size: 24px; margin-right: 5px;">🙂</span>
+      <span style="font-size: 24px;">👍</span>
+    </div>
+  </div>
+
+</body>
+</html>
