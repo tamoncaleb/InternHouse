@@ -19,6 +19,21 @@
       color: #ADD8E6; /* Light blue heading */
       text-align: center;
     }
+    /* New Messages button styling */
+    .messages-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #00bfff; /* Light blue */
+      color: #000; /* Black text */
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .messages-button:hover {
+      background-color: #009acd;
+    }
     .filters {
       display: flex;
       justify-content: space-between;
@@ -78,6 +93,8 @@
 <body>
   <div class="container">
     <h2>Matches</h2>
+    <!-- New Messages button -->
+    <button class="messages-button" onclick="window.location.href='4chat.html'">Messages</button>
     
     <!-- Filters -->
     <div class="filters">
