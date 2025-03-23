@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Matches</title>
   <style>
-    /* Global styles */
     body {
       font-family: Arial, sans-serif;
-      background-color: #121212; /* very dark background */
+      background-color: #121212;
       margin: 0;
       padding: 70px 20px 20px; /* leave room for fixed header */
       color: #e0e0e0;
     }
-    /* Common header (same as in 2profile.html) */
+    /* Common header */
     header {
       background-color: #000;
       padding: 10px 20px;
@@ -28,10 +27,9 @@
     header a {
       display: flex;
       align-items: center;
-      text-decoration: none;
     }
     .logo {
-      height: 60px; /* slightly smaller than profile page logo */
+      height: 60px;
     }
     .nav-links {
       margin-left: 20px;
@@ -47,7 +45,6 @@
     .nav-links a:hover {
       text-decoration: underline;
     }
-    /* Container styling */
     .container {
       max-width: 600px;
       margin: auto;
@@ -125,7 +122,6 @@
       align-items: center;
       cursor: pointer;
       outline: none;
-      color: #000;
     }
     .match-toggle.checked {
       color: #fff;
@@ -139,18 +135,14 @@
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
-        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
-          I
-        </text>
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">I</text>
         <g transform="translate(50,20)">
           <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
           <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
           <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
           <circle cx="41" cy="68" r="2" fill="#fff"/>
         </g>
-        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
-          H
-        </text>
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">H</text>
       </svg>
     </a>
     <div class="nav-links">
@@ -160,11 +152,10 @@
       <a href="6account.html">Account</a>
     </div>
   </header>
-
+  
   <div class="container">
     <h2>Matches</h2>
-    <div class="button-group">
-    </div>
+    <!-- Filters -->
     <div class="filters">
       <select id="filter-location">
         <option value="all">All Locations</option>
@@ -185,7 +176,7 @@
         <option value="Townhouse">Townhouse</option>
       </select>
     </div>
-    <!-- Profile listings (unchanged content) -->
+    <!-- Profile Listings -->
     <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Apartment">
       <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info"> 
@@ -198,7 +189,76 @@
       </div>
       <button class="match-toggle">+</button>
     </div>
-    <!-- Additional profiles here... -->
+    <div class="profile" data-age="27" data-location="New York, NY" data-property="Condo">
+      <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Elizabeth Olsen</p>
+        <p><strong>Age:</strong> 27</p>
+        <p><strong>Job:</strong> Marketing Manager</p>
+        <p><strong>Company:</strong> Facebook</p>
+        <p><strong>Location:</strong> New York, NY</p>
+        <p><strong>Preferred Property Type:</strong> Condo</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+    <div class="profile" data-age="23" data-location="Seattle, WA" data-property="Townhouse">
+      <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
+      <div class="profile-info">
+        <p><strong>Name:</strong> Laura Synder</p>
+        <p><strong>Age:</strong> 23</p>
+        <p><strong>Job:</strong> Data Analyst</p>
+        <p><strong>Company:</strong> Amazon</p>
+        <p><strong>Location:</strong> Seattle, WA</p>
+        <p><strong>Preferred Property Type:</strong> Townhouse</p>
+      </div>
+      <button class="match-toggle">+</button>
+    </div>
+    <!-- Additional profiles can be added similarly -->
   </div>
+  
+  <script>
+    // Toggle the match button (plus to check)
+    const matchToggles = document.querySelectorAll('.match-toggle');
+    matchToggles.forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('checked');
+        this.textContent = this.classList.contains('checked') ? '✔' : '+';
+      });
+    });
+
+    // Filtering functionality
+    const filterLocation = document.getElementById('filter-location');
+    const filterAge = document.getElementById('filter-age');
+    const filterProperty = document.getElementById('filter-property');
+    const profiles = document.querySelectorAll('.profile');
+
+    function applyFilters() {
+      const locVal = filterLocation.value;
+      const ageVal = filterAge.value;
+      const propVal = filterProperty.value;
+
+      profiles.forEach(profile => {
+        const profileLocation = profile.getAttribute('data-location');
+        const profileAge = profile.getAttribute('data-age');
+        const profileProperty = profile.getAttribute('data-property');
+
+        let show = true;
+        if(locVal !== 'all' && profileLocation !== locVal) {
+          show = false;
+        }
+        if(ageVal !== 'all' && profileAge !== ageVal) {
+          show = false;
+        }
+        if(propVal !== 'all' && profileProperty !== propVal) {
+          show = false;
+        }
+        profile.style.display = show ? 'flex' : 'none';
+      });
+    }
+
+    filterLocation.addEventListener('change', applyFilters);
+    filterAge.addEventListener('change', applyFilters);
+    filterProperty.addEventListener('change', applyFilters);
+  </script>
 </body>
 </html>

@@ -22,9 +22,8 @@
       text-decoration: none;
       color: inherit;
     }
-    /* Common header */
     header {
-      background-color: #000;
+      background: #000;
       padding: 10px 20px;
       position: fixed;
       top: 0;
@@ -121,6 +120,8 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      /* Ensure clicks on the preview bubble are passed to the parent */
+      pointer-events: none;
     }
     /* Conversation panel */
     .chat-conversation {
@@ -206,18 +207,14 @@
   <header>
     <a href="2profile.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
-        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
-          I
-        </text>
+        <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">I</text>
         <g transform="translate(50,20)">
           <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
           <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
           <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
           <circle cx="41" cy="68" r="2" fill="#fff"/>
         </g>
-        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
-          H
-        </text>
+        <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">H</text>
       </svg>
     </a>
     <div class="nav-links">
@@ -227,10 +224,10 @@
       <a href="6account.html">Account</a>
     </div>
   </header>
-
+  
   <div class="main-container">
     <div class="chat-list">
-      <!-- Chat items (same as before) -->
+      <!-- Chat items -->
       <div class="chat-item" data-chat="chat1">
         <span class="check-icon icon-left">✔</span>
         <div class="profile-picture">J</div>
@@ -277,7 +274,7 @@
     </div>
   </div>
   <script>
-    // (Existing JavaScript remains unchanged)
+    // Dummy chat data for simulation
     const chatData = {
       chat1: {
         chatName: "John D.",
@@ -286,35 +283,74 @@
           { sender: "me", text: "Yes, I'm free. How about meeting at 5?", profile: "Me" }
         ]
       },
-      // Additional chat data...
+      chat2: {
+        chatName: "Jim R.",
+        messages: [
+          { sender: "them", text: "I have a room for rent!", profile: "J" },
+          { sender: "them", text: "Let me know if you're interested.", profile: "J" }
+        ]
+      },
+      chat3: {
+        chatName: "Summer in NY",
+        messages: [
+          { sender: "them", text: "We have 2 spots left!", profile: "S" }
+        ]
+      },
+      chat4: {
+        chatName: "Amy",
+        messages: [
+          { sender: "them", text: "Amy wants to match with you", profile: "A" }
+        ]
+      }
+      // Additional chat data as needed...
     };
+
     const chatItems = document.querySelectorAll('.chat-item');
     const conversationHeader = document.querySelector('.conversation-header');
     const conversationMessages = document.querySelector('.conversation-messages');
     const messageInput = document.getElementById('messageInput');
     const sendMessageButton = document.getElementById('sendMessage');
     let activeChatId = null;
+
     function loadConversation(chatId) {
       activeChatId = chatId;
       const chat = chatData[chatId];
-      conversationHeader.textContent = chat.chatName;
-      conversationMessages.innerHTML = "";
-      chat.messages.forEach(msg => { appendMessage(msg.sender, msg.text, msg.profile); });
+      if(chat) {
+        conversationHeader.textContent = chat.chatName;
+        conversationMessages.innerHTML = "";
+        chat.messages.forEach(msg => {
+          appendMessage(msg.sender, msg.text, msg.profile);
+        });
+      } else {
+        conversationHeader.textContent = "Conversation Not Found";
+        conversationMessages.innerHTML = "";
+      }
     }
+
     function appendMessage(sender, text, profile) {
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message', sender);
+      
       const profileSpan = document.createElement('span');
       profileSpan.classList.add('profile');
       profileSpan.textContent = profile;
+      
       const textDiv = document.createElement('div');
       textDiv.classList.add('text');
       textDiv.textContent = text;
-      if(sender === "them") { messageDiv.appendChild(profileSpan); messageDiv.appendChild(textDiv); }
-      else { messageDiv.appendChild(textDiv); messageDiv.appendChild(profileSpan); }
+      
+      if(sender === "them") {
+        messageDiv.appendChild(profileSpan);
+        messageDiv.appendChild(textDiv);
+      } else {
+        messageDiv.appendChild(textDiv);
+        messageDiv.appendChild(profileSpan);
+      }
+      
       conversationMessages.appendChild(messageDiv);
       conversationMessages.scrollTop = conversationMessages.scrollHeight;
     }
+
     chatItems.forEach(item => {
       item.addEventListener('click', function() {
         chatItems.forEach(i => i.classList.remove('active'));
@@ -323,16 +359,24 @@
         loadConversation(chatId);
       });
     });
+
     sendMessageButton.addEventListener('click', function() {
       const text = messageInput.value.trim();
       if(text !== "" && activeChatId) {
         appendMessage("me", text, "Me");
-        chatData[activeChatId].messages.push({ sender: "me", text: text, profile: "Me" });
+        // Update the dummy data as well
+        if(chatData[activeChatId]) {
+          chatData[activeChatId].messages.push({ sender: "me", text: text, profile: "Me" });
+        }
         messageInput.value = "";
       }
     });
+
     messageInput.addEventListener('keydown', function(e) {
-      if(e.key === "Enter") { e.preventDefault(); sendMessageButton.click(); }
+      if(e.key === "Enter") {
+        e.preventDefault();
+        sendMessageButton.click();
+      }
     });
   </script>
 </body>
