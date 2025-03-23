@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat</title>
+  <style>
+    /* Global resets and typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      line-height: 1.4;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Header styling */
+    header {
+      background: linear-gradient(135deg, #00bfff, #005f8f);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    /* Main container for chat list */
+    .chat-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #242424;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Chat list items */
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .chat-item:last-child {
+      border-bottom: none;
+    }
+    .chat-item:hover {
+      background: #2a2a2a;
+    }
+
+    /* Profile picture or group badge */
+    .profile-picture,
+    .group-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #00bfff; /* Default single-user color */
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    /* For group chats, you can differentiate color or text as needed */
+    .group-badge {
+      background: #009acd; /* A slightly different shade of blue */
+    }
+
+    /* Chat info: name + preview */
+    .chat-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-name {
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chat-preview {
+      font-size: 14px;
+      color: #ccc;
+      max-width: 220px;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Icons for homeowner, matching, matched, etc. */
+    .house-icon,
+    .plus-icon,
+    .check-icon {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    .house-icon {
+      color: #ffa500; /* Orange for house owners */
+    }
+    .plus-icon {
+      color: #00ff7f; /* Greenish for 'plus' or request to match */
+    }
+    .check-icon {
+      color: #00ff7f; /* Greenish for matched */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .chat-preview {
+        display: none; /* Hide preview text on very small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chat</h1>
+    <p>Select a conversation to view or continue chatting</p>
+  </header>
+
+  <div class="chat-container">
+    <!-- Single-person chat, matched (check icon) -->
+    <div class="chat-item">
+      <div class="profile-picture">
+        <span>J</span>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">
+          John D.
+          <span class="check-icon">✔</span>
+        </div>
+        <div class="chat-preview">Hey, are you free tomorrow?</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <div class="profile-picture">
+        <span>J</span>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Jim R.
+          <span class="house-icon">🏠</span>
+        </div>
+        <div class="chat-preview">I have a room for rent!</div>
+      </div>
+    </div>
+
+    <!-- Group chat (multiple people) -->
+    <div class="chat-item">
+      <div class="group-badge">
+        <span>3</span>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Summer in NY
+        </div>
+        <div class="chat-preview">We have 2 spots left!</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, trying to match (plus icon) -->
+    <div class="chat-item">
+      <div class="profile-picture">
+        <span>A</span>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Amy
+          <span class="plus-icon">➕</span>
+        </div>
+        <div class="chat-preview">Amy wants to match with you</div>
+      </div>
+    </div>
+
+    <!-- Another group chat (multiple people) -->
+    <div class="chat-item">
+      <div class="group-badge">
+        <span>4</span>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name">
+          Google Intern Roommates
+        </div>
+        <div class="chat-preview">We need one more person!</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
