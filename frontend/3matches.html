@@ -315,15 +315,19 @@
 
       profiles.forEach(profile => {
         const profileLocation = profile.getAttribute('data-location');
-        const profileAge = profile.getAttribute('data-age');
+        const profileAge = parseInt(profile.getAttribute('data-age'), 10);
         const profileProperty = profile.getAttribute('data-property');
 
         let show = true;
         if (locVal !== 'all' && profileLocation !== locVal) {
           show = false;
         }
-        if (ageVal !== 'all' && profileAge !== ageVal) {
-          show = false;
+        // Updated age filter: Check if profileAge falls within the selected range
+        if (ageVal !== 'all') {
+          const [minAge, maxAge] = ageVal.split('-').map(Number);
+          if (profileAge < minAge || profileAge > maxAge) {
+            show = false;
+          }
         }
         if (propVal !== 'all' && profileProperty !== propVal) {
           show = false;
