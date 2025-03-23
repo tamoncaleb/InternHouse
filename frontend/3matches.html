@@ -19,7 +19,7 @@
       color: #ADD8E6; /* Light blue heading */
       text-align: center;
     }
-    /* New Buttons styling */
+    /* Button group styling */
     .button-group {
       text-align: center;
       margin-bottom: 20px;
@@ -88,9 +88,9 @@
       color: #000; /* Black text */
     }
     .match-toggle.checked {
-      color: #ADD8E6; /* Light blue text */
-      border-color: #ADD8E6; /* Light blue border */
-      font-size: 36px; /* 50% larger than original */
+    color: #fff; /* White text for contrast */
+    border-color: #fff; /* White border for consistency */
+    font-size: 36px; /* 50% larger than original */
     }
   </style>
 </head>
@@ -127,7 +127,7 @@
     
     <!-- Profile Listings -->
     <div class="profile" data-age="25" data-location="San Francisco, CA" data-property="Apartment">
-      <img src="file:///C:/Users/tamon/Downloads/pfp3.jpg" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp3.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info"> 
         <p><strong>Name:</strong> Mary Goodborn</p>
         <p><strong>Age:</strong> 25</p>
@@ -140,7 +140,7 @@
     </div>
 
     <div class="profile" data-age="27" data-location="New York, NY" data-property="Condo">
-      <img src="file:///C:/Users/tamon/Downloads/pfp2.jpg" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp2.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
         <p><strong>Name:</strong> Elizabeth Olsen</p>
         <p><strong>Age:</strong> 27</p>
@@ -153,7 +153,7 @@
     </div>
 
     <div class="profile" data-age="23" data-location="Seattle, WA" data-property="Townhouse">
-      <img src="file:///C:/Users/tamon/Downloads/pfp1.jpg" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp1.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
         <p><strong>Name:</strong> Laura Synder</p>
         <p><strong>Age:</strong> 23</p>
@@ -166,7 +166,7 @@
     </div>
 
     <div class="profile" data-age="19" data-location="North Potomac, MD" data-property="Townhouse">
-      <img src="file:///C:/Users/tamon/Downloads/pfp4.jpg" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp4.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
         <p><strong>Name:</strong> Ahmed Otyo</p>
         <p><strong>Age:</strong> 19</p>
@@ -179,7 +179,7 @@
     </div>
 
     <div class="profile" data-age="21" data-location="New York, NY" data-property="Townhouse">
-      <img src="file:///C:/Users/tamon/Downloads/pfp5.jpg" alt="Profile Picture" class="profile-picture" />
+      <img src="pfp5.jpg" alt="Profile Picture" class="profile-picture" />
       <div class="profile-info">
         <p><strong>Name:</strong> Greg Fiswo</p>
         <p><strong>Age:</strong> 21</p>
@@ -193,7 +193,7 @@
   </div>
   
   <script>
-    // Toggle plus sign to check mark with increased size when checked
+    // Toggle plus sign to check mark when clicked
     document.querySelectorAll('.match-toggle').forEach(function(button) {
       button.addEventListener('click', function() {
         if (button.classList.contains('checked')) {
@@ -222,25 +222,16 @@
         const profileAge = parseInt(profile.getAttribute('data-age'));
         const profileProperty = profile.getAttribute('data-property');
         
-        // Location filter
+        // Check filters
         let locationMatch = (selectedLocation === 'all' || profileLocation === selectedLocation);
-        
-        // Age filter
-        let ageMatch = true;
-        if (selectedAge !== 'all') {
+        let ageMatch = selectedAge === 'all' ? true : (() => {
           const [minAge, maxAge] = selectedAge.split('-').map(Number);
-          ageMatch = profileAge >= minAge && profileAge <= maxAge;
-        }
-        
-        // Property type filter
+          return profileAge >= minAge && profileAge <= maxAge;
+        })();
         let propertyMatch = (selectedProperty === 'all' || profileProperty === selectedProperty);
         
-        // Show or hide the profile based on the filters
-        if (locationMatch && ageMatch && propertyMatch) {
-          profile.style.display = 'flex';
-        } else {
-          profile.style.display = 'none';
-        }
+        // Show or hide based on filters
+        profile.style.display = (locationMatch && ageMatch && propertyMatch) ? 'flex' : 'none';
       });
     }
     

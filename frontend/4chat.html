@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>4chat - Chat Conversation</title>
+  <title>Chat</title>
   <style>
-    /* Global resets */
+    /* Global resets and typography */
     * {
       margin: 0;
       padding: 0;
@@ -15,12 +15,14 @@
       font-family: Arial, sans-serif;
       background: #1a1a1a;
       color: #e0e0e0;
-      line-height: 1.5;
+      line-height: 1.4;
     }
-    a {
-      text-decoration: none;
-      color: inherit;
+    .container {
+      max-width: 600px;
+      margin: auto;
     }
+
+    /* Header styling */
     header {
       background: linear-gradient(135deg, #00bfff, #005f8f);
       color: #fff;
@@ -28,173 +30,147 @@
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
-    header h1 { margin-bottom: 5px; }
-    /* Main two-column container */
-    .main-container {
-      display: flex;
-      max-width: 1200px;
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    /* Main container for chat list */
+    .chat-container {
+      max-width: 900px; /* Increased width for a bigger chat area */
       margin: 30px auto;
       background: #242424;
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     }
-    /* Chat list styling */
-    .chat-list {
-      width: 300px;
-      border-right: 1px solid #333;
-      background: #2a2a2a;
-    }
+
+    /* Chat list items */
     .chat-item {
       display: flex;
       align-items: center;
-      padding: 15px 10px;
+      padding: 15px 20px;
       border-bottom: 1px solid #333;
       cursor: pointer;
-      transition: background 0.3s;
+    }
+    .button-group button:hover {
+      background-color: #009acd;
+    }
+    .chat-item:last-child {
+      border-bottom: none;
     }
     .chat-item:hover {
-      background: #333;
+      background: #2a2a2a;
     }
+<<<<<<< HEAD
     .chat-item.active {
       background: #444;
     }
     /* Left icons styling */
+=======
+
+    /* Icons on the left */
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
     .icon-left {
       margin-right: 10px;
       font-size: 18px;
     }
+<<<<<<< HEAD
     /* Group icon specific styling */
     .group-icon {
       /* Same as icon-left; extra customization possible if needed */
     }
     /* Profile picture / group badge */
     .profile-picture {
+=======
+
+    /* Profile picture or group badge */
+    .profile-picture,
+    .group-badge {
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #00bfff;
+      background: #00bfff; /* Default single-user color */
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-right: 15px;
       font-weight: bold;
       font-size: 16px;
+<<<<<<< HEAD
       margin-right: 10px;
       flex-shrink: 0; /* Ensure it does not shrink */
     }
     /* Chat info in list */
+=======
+    }
+    /* Group chats have a slightly different color or style */
+    .group-badge {
+      background: #009acd; 
+    }
+
+    /* Chat info: name + preview */
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
     .chat-info {
       flex: 1;
+      color: #000; /* Black text */
+    }
+    .match-toggle {
+      background: none;
+      border: 2px solid #000; /* Black border */
+      border-radius: 50%;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
     }
     .chat-name {
       font-size: 16px;
       font-weight: bold;
-      margin-bottom: 5px;
     }
     /* Updated preview text with fixed width and ellipsis */
     .chat-preview {
       font-size: 14px;
       color: #ccc;
+<<<<<<< HEAD
       max-width: 150px; /* Fixed max width prevents overflow */
+=======
+      max-width: 300px;
+      text-align: right;
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    /* Chat conversation panel */
-    .chat-conversation {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #242424;
+
+    /* Icons for homeowner, matching, matched, etc. */
+    .house-icon {
+      color: #ffa500; /* Orange for house owners */
     }
-    .conversation-header {
-      padding: 15px;
-      background: #2a2a2a;
-      border-bottom: 1px solid #333;
-      font-size: 18px;
-      font-weight: bold;
+    .plus-icon {
+      color: #00ff7f; /* Greenish for 'plus' or request to match */
     }
-    .conversation-messages {
-      flex: 1;
-      padding: 20px;
-      background: #2a2a2a;
-      overflow-y: auto;
+    .check-icon {
+      color: #00ff7f; /* Greenish for matched */
     }
-    .conversation-input {
-      padding: 15px;
-      background: #2a2a2a;
-      border-top: 1px solid #333;
-      display: flex;
-    }
-    .conversation-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 16px;
-      background: #333;
-      color: #e0e0e0;
-    }
-    .conversation-input button {
-      padding: 10px 15px;
-      background: #00bfff;
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .conversation-input button:hover {
-      background: #009acd;
-    }
-    /* Chat message bubbles */
-    .message {
-      display: flex;
-      margin-bottom: 15px;
-    }
-    .message.them {
-      justify-content: flex-start;
-    }
-    .message.me {
-      justify-content: flex-end;
-    }
-    .message .profile {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #00bfff;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      margin-right: 10px;
-    }
-    .message.me .profile {
-      order: 2;
-      margin-left: 10px;
-      margin-right: 0;
-    }
-    .message .text {
-      background: #3a3a3a;
-      padding: 10px;
-      border-radius: 4px;
-      max-width: 60%;
-    }
-    .message.me .text {
-      background: #005f8f;
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .chat-preview {
+        display: none; /* Hide preview text on very small screens */
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Chat</h1>
-    <p>Select a conversation and start chatting</p>
+    <p>Select a conversation to view or continue chatting</p>
   </header>
+<<<<<<< HEAD
   <div class="main-container">
     <div class="chat-list">
       <!-- Individual chat: matched -->
@@ -301,19 +277,149 @@
           <div class="chat-name">Off-Campus Crew</div>
           <div class="chat-preview">Our lease starts next month!</div>
         </div>
+=======
+
+  <div class="chat-container">
+
+    <!-- Single-person chat, matched (check icon) -->
+    <div class="chat-item">
+      <span class="check-icon icon-left">✔</span>
+      <div class="profile-picture">J</div>
+      <div class="chat-info">
+        <div class="chat-name">John D.</div>
+        <div class="chat-preview">Hey, are you free tomorrow?</div>
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
       </div>
     </div>
-    <div class="chat-conversation">
-      <div class="conversation-header">Select a chat</div>
-      <div class="conversation-messages">
-        <p style="text-align:center; color:#ccc;">No conversation selected. Please select a chat from the list.</p>
-      </div>
-      <div class="conversation-input">
-        <input type="text" id="messageInput" placeholder="Type your message...">
-        <button id="sendMessage">Send</button>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
+      <div class="profile-picture">J</div>
+      <div class="chat-info">
+        <div class="chat-name">Jim R.</div>
+        <div class="chat-preview">I have a room for rent!</div>
       </div>
     </div>
+
+    <!-- Group chat (3 people) -->
+    <div class="chat-item">
+      <div class="group-badge">3</div>
+      <div class="chat-info">
+        <div class="chat-name">Summer in NY</div>
+        <div class="chat-preview">We have 2 spots left!</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, trying to match (plus icon) -->
+    <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
+      <div class="profile-picture">A</div>
+      <div class="chat-info">
+        <div class="chat-name">Amy</div>
+        <div class="chat-preview">Amy wants to match with you</div>
+      </div>
+    </div>
+
+    <!-- Group chat (4 people) -->
+    <div class="chat-item">
+      <div class="group-badge">4</div>
+      <div class="chat-info">
+        <div class="chat-name">Google Intern Roommates</div>
+        <div class="chat-preview">We need one more person!</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, plus icon -->
+    <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
+      <div class="profile-picture">B</div>
+      <div class="chat-info">
+        <div class="chat-name">Bella S.</div>
+        <div class="chat-preview">Hey! Interested in splitting a place?</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, matched (check icon) -->
+    <div class="chat-item">
+      <span class="check-icon icon-left">✔</span>
+      <div class="profile-picture">M</div>
+      <div class="chat-info">
+        <div class="chat-name">Mark T.</div>
+        <div class="chat-preview">Looking forward to rooming together!</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
+      <div class="profile-picture">L</div>
+      <div class="chat-info">
+        <div class="chat-name">Lauren G.</div>
+        <div class="chat-preview">I can give you a tour next week.</div>
+      </div>
+    </div>
+
+    <!-- Group chat (3 people) -->
+    <div class="chat-item">
+      <div class="group-badge">3</div>
+      <div class="chat-info">
+        <div class="chat-name">Room 202</div>
+        <div class="chat-preview">We just got a new roommate!</div>
+      </div>
+    </div>
+
+    <!-- Group chat (5 people) -->
+    <div class="chat-item">
+      <div class="group-badge">5</div>
+      <div class="chat-info">
+        <div class="chat-name">The Big Apple Crew</div>
+        <div class="chat-preview">When are you all moving in?</div>
+      </div>
+    </div>
+
+    <!-- Additional Examples -->
+
+    <!-- Single-person chat, plus icon -->
+    <div class="chat-item">
+      <span class="plus-icon icon-left">➕</span>
+      <div class="profile-picture">C</div>
+      <div class="chat-info">
+        <div class="chat-name">Chris W.</div>
+        <div class="chat-preview">Are you still looking for a place?</div>
+      </div>
+    </div>
+
+    <!-- Single-person chat, homeowner (house icon) -->
+    <div class="chat-item">
+      <span class="house-icon icon-left">🏠</span>
+      <div class="profile-picture">V</div>
+      <div class="chat-info">
+        <div class="chat-name">Vivian P.</div>
+        <div class="chat-preview">Open house this weekend!</div>
+      </div>
+    </div>
+
+    <!-- Group chat (2 people) -->
+    <div class="chat-item">
+      <div class="group-badge">2</div>
+      <div class="chat-info">
+        <div class="chat-name">Lisa & Dani</div>
+        <div class="chat-preview">We're looking for a 3rd roommate.</div>
+      </div>
+    </div>
+
+    <!-- Group chat (6 people) -->
+    <div class="chat-item">
+      <div class="group-badge">6</div>
+      <div class="chat-info">
+        <div class="chat-name">Off-Campus Crew</div>
+        <div class="chat-preview">Our lease starts next month!</div>
+      </div>
+    </div>
+
   </div>
+<<<<<<< HEAD
   <script>
     // Dummy chat data for simulation
     const chatData = {
@@ -464,5 +570,7 @@
       }
     });
   </script>
+=======
+>>>>>>> b01b22c095d778e4ea2bc4a6b166873c34242791
 </body>
 </html>
