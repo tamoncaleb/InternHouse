@@ -46,19 +46,18 @@
       font-weight: bold;
     }
     
-    /* Updated Chat Container with matching theme */
+    /* Chat container remains with blue styling */
     .chat-container {
       width: 100%;
       max-width: 500px;
       margin: auto;
-      background: linear-gradient(135deg, rgba(28,28,28,0.95), rgba(0,191,255,0.95));
       border-radius: 30px;
       padding: 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       position: relative;
       z-index: 10;
       margin-top: 10vh;
       color: #fff;
+      text-align: center; /* Center text horizontally */
     }
 
     .bubble {
@@ -96,12 +95,12 @@
       border-radius: 25px;
       padding: 10px;
       box-shadow: 0 0 20px rgba(66, 165, 245, 0.6);
-      margin-top: 10px;
+      margin-top: 190px;
       animation: floatIn 0.6s ease-out;
       position: relative;
     }
 
-    .input-box::after {
+    /* .input-box::after {
       content: "";
       position: absolute;
       bottom: -20px;
@@ -111,7 +110,7 @@
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       border-top: 20px solid #42a5f5;
-    }
+    } */
 
     .input-box input {
       flex: 1;
@@ -164,6 +163,12 @@
       animation: fadeIn 1s ease-in-out, pulse 3s infinite, drift 10s infinite linear alternate;
     }
 
+    /* New style for upload bubble text stroke */
+    #upload-q {
+      -webkit-text-stroke: 1px #000;
+      text-stroke: 1px #000;
+    }
+
     @keyframes fadeIn {
       from { transform: scale(0); opacity: 0; }
       to { transform: scale(1); opacity: 0.95; }
@@ -201,7 +206,7 @@
       }
     }
     
-    /* Matching overlay styles */
+    /* Matching overlay styles remain unchanged */
     #matchOverlay {
       position: fixed;
       top: 0;
@@ -239,25 +244,17 @@
 <body>
   <!-- Header with InternHouse Logo -->
   <header>
-    <a href="match.html">
-      <!-- InternHouse Logo: I (serif style), blue & white house, H -->
+    <a href="1index.html">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
-        <!-- Letter I (serif style) -->
         <text x="50" y="80" text-anchor="end" font-family="Times New Roman, serif" font-size="72" font-weight="bold" fill="#00bfff">
           I
         </text>
-        <!-- House in the center -->
         <g transform="translate(50,20)">
-          <!-- Roof -->
           <polygon points="0,40 40,0 80,40" fill="#00bfff" stroke="#fff" stroke-width="2"/>
-          <!-- House body -->
           <rect x="10" y="40" width="60" height="40" fill="#fff" stroke="#00bfff" stroke-width="2"/>
-          <!-- Door -->
           <rect x="35" y="55" width="10" height="25" fill="#00bfff"/>
-          <!-- Door knob -->
           <circle cx="41" cy="68" r="2" fill="#fff"/>
         </g>
-        <!-- Letter H -->
         <text x="140" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#00bfff">
           H
         </text>
@@ -306,13 +303,31 @@
       return fonts[index];
     }
 
+    // Updated overlapping function: also check if new bubble overlaps input box
     function isOverlapping(newRect) {
-      return bubblePositions.some(pos => {
+      // Check against existing bubbles
+      if (bubblePositions.some(pos => {
         const dx = pos.left - newRect.left;
         const dy = pos.top - newRect.top;
         const distance = Math.sqrt(dx * dx + dy * dy);
         return distance < (pos.size + newRect.size) / 1.5;
-      });
+      })) {
+        return true;
+      }
+      // Check against input box
+      const inputBox = document.getElementById("inputBox");
+      if (inputBox) {
+        const inputRect = inputBox.getBoundingClientRect();
+        const newRight = newRect.left + newRect.size;
+        const newBottom = newRect.top + newRect.size;
+        if (newRect.left < inputRect.right &&
+            newRight > inputRect.left &&
+            newRect.top < inputRect.bottom &&
+            newBottom > inputRect.top) {
+          return true;
+        }
+      }
+      return false;
     }
 
     function createFloatingBubble(text, index) {
@@ -394,7 +409,7 @@
         const inputBox = document.getElementById("inputBox");
         if (inputBox) inputBox.remove();
 
-        // Show profile picture upload prompt
+        // Show profile picture upload prompt with text stroke styling
         const uploadBubble = document.createElement("div");
         uploadBubble.className = "bubble question";
         uploadBubble.id = "upload-q";
@@ -438,7 +453,6 @@
         profileContainer.style.borderRadius = "20px";
         profileContainer.style.background = "transparent";
         profileContainer.style.color = "#fff";
-        profileContainer.style.boxShadow = "none";
 
         // "You're all set" text above the profile picture
         const greeting = document.createElement("div");
@@ -493,6 +507,9 @@
         profileContainer.appendChild(matchButton);
         chat.appendChild(profileContainer);
         chat.scrollTop = chat.scrollHeight;
+
+        // Save userData to localStorage for use on page 3.
+        localStorage.setItem("userData", JSON.stringify(userData));
 
         console.log("Final profile data:", userData);
       }
